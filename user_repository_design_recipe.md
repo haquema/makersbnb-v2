@@ -112,18 +112,24 @@ Using comments, define the method signatures (arguments and return value) and wh
 
 class UserRepository
 
-  
-  def create(input_1, input_2, input_3)
+  #creates a user 
+  def create(user)
     # Executes the SQL query:
     INSERT into users
     ( username, email_address, password )
-    VALUES ( input_1, input_2, input_3 ) 
-
-    # Returns an array of Student objects.
+    VALUES ( $1, $2, $3 )
   end
 
-  # Gets a single record by its ID
-  # One argument: the id (number)
+  #Deletes a user entry
+  def delete(id)
+    sql = 'DELETE FROM users WHERE id = $1;'	
+  end
+
+  #Updates a user entry
+  def update(user)
+    sql = 'UPDATE users SET username = $1, email_address = $2, password = $3;' 
+  end
+
   def find(id)
     # Executes the SQL query:
     # SELECT id, name, cohort_name FROM students WHERE id = $1;
@@ -136,11 +142,6 @@ class UserRepository
   # def create(student)
   # end
 
-  # def update(student)
-  # end
-
-  # def delete(student)
-  # end
 end
 ```
 
