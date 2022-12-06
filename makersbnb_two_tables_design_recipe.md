@@ -186,7 +186,7 @@ CREATE TABLE available_dates (
   id SERIAL PRIMARY KEY,
   date DATE,
   property_id int,
-  available BOOLEAN
+  available BOOLEAN,
   constraint fk_property foreign key(property_id)
     references properties(id)
     on delete cascade
