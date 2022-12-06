@@ -1,4 +1,5 @@
 require 'owner_repository'
+require 'owner'
 
 def reset_owners_table
   seed_sql = File.read('spec/seeds_owners.sql')
@@ -21,10 +22,28 @@ describe OwnerRepository do
       expect(owners.first.user_id).to eq(1)
     end
 
+    it "can find a single owner" do
+      repo = OwnerRepository.new
 
+      owner = repo.find(1)
+      expect(owner.id).to eq(1)
+      owner.user_id
+    end
 
+    it "can create a new owner" do
+      repo = OwnerRepository.new
 
+      owner = Owner.new
+      owner.id = '3'
+      owner.user_id = '3'
 
+      owners = repo.all
+      repo.create(owner)
 
+      last_owner = owners.last
+
+      expect(last_owner.id).to eq ('3')
+      expect(last_owner.user_id).to eq ('3')
+    end
   end
   end
