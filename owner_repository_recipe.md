@@ -6,6 +6,8 @@
 
 TRUNCATE TABLE owners RESTART IDENTITY;
 INSERT INTO owners (user_id) VALUES ('1');
+INSERT INTO owners (user_id) VALUES ('2');
+
 
 ```
 -------------------------------------------------------------------------------------
@@ -18,7 +20,7 @@ INSERT INTO owners (user_id) VALUES ('1');
 class OwnerRepository
   def all
 
-  # SQL: 'SELECT id, owner_id, user_id FROM owners;'
+  # SQL: 'SELECT id, owner_id FROM owners;'
   # Returns an array of posts
   end
 
@@ -30,7 +32,7 @@ class OwnerRepository
 
   def create(owner)
 
-  # SQL: 'INSERT INTO owners (owner_id, user_id) VALUES($1, $2);'
+  # SQL: 'INSERT INTO owners (user_id) VALUES($1);'
   # Doesn't need to return anything
   end
 
@@ -42,7 +44,7 @@ class OwnerRepository
 
   def update(owner)
 
-  # SQL: 'UPDATE owners SET owner_id = $1, puser_id = $2 WHERE id = $3;'
+  # SQL: 'UPDATE owners SET owner_id = $1, user_id = $2 WHERE id = $3;'
   # Doesn't need to return anything
   end
 
@@ -97,27 +99,27 @@ expect(last_owner.user_id).to eq ('')
 # 4
 # Delete an owner
 
-repo = OwnerRepository.new
-owners = repo.all
-repo.delete(1)
+# repo = OwnerRepository.new
+# owners = repo.all
+# repo.delete(1)
 
-expect(owners.length).to eq # =>
-expect(owners.first.id).to eq # =>
+# expect(owners.length).to eq # =>
+# expect(owners.first.id).to eq # =>
 
 
 # 5
 # Update an owner
 
-repo = OwnerRepository.new
+# repo = OwnerRepository.new
 
-owner = repo.find(1)
+# owner = repo.find(1)
 
-owner.owner_id => 'mike@mike'
-owner.user_id = 'mike'
+# owner.owner_id => 
+# owner.user_id => 
 
-updated_owner = repo.find(1)
-updated_owner.owner_id # =>
-updated_owner.user_id # =>
+# updated_owner = repo.find(1)
+# updated_owner.owner_id # =>
+# updated_owner.user_id # =>
 
 
 ```
