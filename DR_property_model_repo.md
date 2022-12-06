@@ -14,9 +14,9 @@ id | property_name | property_description | price_per_night
 
 TRUNCATE TABLE properties RESTART IDENTITY CASCADE;
 
-INSERT INTO properties (property_name, property_description, Price_per_night) VALUES ('Spaceship-style treehouse', 'you'll be sure to have an out of this world experience in our UFO-styled treehouse', 200, 1);
-INSERT INTO properties (property_name, property_description, Price_per_night) VALUES ('Dome of the Future', 'Our beautiful camping pods are modelled on the eden project domes', 250, 1);
-INSERT INTO properties (property_name, property_description, Price_per_night) VALUES ('Starship Enterprise in the Forest', 'Get the ultimate star-trek experience right in the heart of the new forest', 500, 1);
+INSERT INTO properties (property_name, property_description, price_per_night, owner_id) VALUES ('Spaceship-style treehouse', 'you'll be sure to have an out of this world experience in our UFO-styled treehouse', 200, 1);
+INSERT INTO properties (property_name, property_description, price_per_night, owner_id) VALUES ('Dome of the Future', 'Our beautiful camping pods are modelled on the eden project domes', 250, 1);
+INSERT INTO properties (property_name, property_description, price_per_night, owner_id) VALUES ('Starship Enterprise in the Forest', 'Get the ultimate star-trek experience right in the heart of the new forest', 500, 1);
 
 psql -h 127.0.0.1 makersbnb_test < seeds_properties.sql
 
