@@ -89,7 +89,7 @@ Remember to always have the primary key id as a first column. Its type will alwa
 # EXAMPLE:
 
 
-Table: renters
+Table: users
 id: SERIAL
 username: text
 email_address: text
@@ -109,6 +109,7 @@ price_per_night: int
 user: int
 
 Table: bookings
+id: SERIAL
 renter_name: text
 renter_email_address: text
 booking_date: DATE
@@ -150,28 +151,57 @@ If you can answer YES to the two questions, you'll probably have to implement a 
 
 4. Write the SQL.
 
--- EXAMPLE
--- file: albums_table.sql
 
--- Replace the table name, columm names and types.
+```sql
 
--- Create the table without the foreign key first.
-CREATE TABLE artists (
+DATABASE NAME - makersbnb + makersbnb_test
+
+CREATE TABLE users (
   id SERIAL PRIMARY KEY,
-  name text,
+  username text,
+  email_address text,
+  password text
 );
 
--- Then the table with the foreign key first.
-CREATE TABLE albums (
+CREATE TABLE owners (
   id SERIAL PRIMARY KEY,
-  title text,
-  release_year int,
--- The foreign key name is always {other_table_singular}_id
-  artist_id int,
-  constraint fk_artist foreign key(artist_id)
-    references artists(id)
+  user_id int,
+  constraint fk_user foreign key(user_id)
+    references users(id)
     on delete cascade
 );
+
+CREATE TABLE properties (
+  id SERIAL PRIMARY KEY,
+  property_name text,
+  property_description text,
+  price_per_night int,
+  owner_id int,
+  constraint fk_owner foreign key(owner_id)
+    references owners(id)
+    on delete cascade
+);
+
+CREATE TABLE available_dates (
+  id SERIAL PRIMARY KEY,
+  date DATE,
+  property_id int,
+  available BOOLEAN
+  constraint fk_property foreign key(property_id)
+    references properties(id)
+    on delete cascade
+);
+
+CREATE TABLE bookings (
+  id SERIAL PRIMARY KEY,
+ 
+  constraint fk_owner foreign key(owner_id)
+    references owners(id)
+    on delete cascade
+);
+
+```
+
 5. Create the tables.
 
 psql -h 127.0.0.1 database_name < albums_table.sql
