@@ -44,8 +44,10 @@ RSpec.describe BookingRepository do
       new_booking.owner_id = '1'
       new_booking.user_id = '1'
 
+      repo.create(new_booking)
+
       expect(repo.all.length).to eq(2)
-      expect(repo.all.first.requested_dates).to eq('2022-25-12')
+      expect(repo.all.last.requested_dates).to eq('2022-25-12')
       expect(repo.all.last.property_id).to eq('1')
       expect(repo.all.last.owner_id).to eq('1')
       expect(repo.all.last.user_id).to eq('1')
