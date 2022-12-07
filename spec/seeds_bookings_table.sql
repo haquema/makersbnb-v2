@@ -8,4 +8,4 @@ INSERT INTO owners (user_id) VALUES ('2');
 INSERT INTO properties (property_name, property_description, price_per_night, owner_id) VALUES ('Spaceship-style treehouse', 'you''ll be sure to have an out of this world experience in our UFO-styled treehouse', 200, 1);
 INSERT INTO properties (property_name, property_description, price_per_night, owner_id) VALUES ('Dome of the Future', 'Our beautiful camping pods are modelled on the eden project domes', 250, 1);
 INSERT INTO properties (property_name, property_description, price_per_night, owner_id) VALUES ('Starship Enterprise in the Forest', 'Get the ultimate star-trek experience right in the heart of the new forest', 500, 1);
-INSERT INTO bookings (requested_dates, property_id, owner_id, user_id) VALUES ('01/01/2022', 1, 1, 1)
+INSERT INTO bookings (requested_dates, property_id, owner_id, user_id) VALUES ('07/12/2022', 1, 1, 1);
