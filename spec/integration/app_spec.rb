@@ -24,4 +24,14 @@ describe Application do
       expect(response.status).to eq(404)
     end
   end
+  context "GET /" do
+    it 'returns 200 OK' do
+      response = get('/properties')
+
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<p>Spaceship-style treehouse</p>')
+      expect(response.body).to include('<p>you\'ll be sure to have an out of this world experience in our UFO-styled treehouse</p>')
+      expect(response.body).to include('<p>200</p>')
+    end
+  end
 end

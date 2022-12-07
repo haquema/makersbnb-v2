@@ -15,4 +15,10 @@ class Application < Sinatra::Base
     @properties = repo.all
     return erb(:index)
   end
+
+  get '/properties' do
+    repo = PropertyRepository.new
+    @properties = repo.all
+    return erb(:properties)
+  end
 end

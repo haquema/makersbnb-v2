@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>  
+        <link rel="stylesheet" href="/style.css" >     
+    </head>
+    <body>
+        <title>MakersBnB</title>
+        <% @properties.each do |record|%>
+                <div>
+                    <p><%= record.property_name%></p>
+                    <p><%= record.property_description %></p>
+                    <p><%= record.price_per_night %></p>
+                    <input type="submit" value="book now" />
+                </div>
+            <%end %>
+    </body>
+</html>
