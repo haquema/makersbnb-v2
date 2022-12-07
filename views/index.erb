@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>MakersBnB</title>
-
-        <!--
-            Head to https://github.com/makersacademy/web-applications/blob/main/pills/loading_css_or_static_files.md
-            If you're wondering how the CSS file below is being loaded.
-        -->
-        <link rel="stylesheet" href="/style.css" >
+    <head>  
+        <link rel="stylesheet" href="/style.css" >     
     </head>
     <body>
-        <p>This is the homepage.</h1>
+        <title>MakersBnB</title>
+        <% @properties.each do |record|%>
+                <div>
+                    <p><%= record.property_name%></p>
+                    <p><%= record.property_description %></p>
+                    <p><%= record.price_per_night %></p>
+                </div>
+            <%end %>
     </body>
 </html>

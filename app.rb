@@ -1,5 +1,9 @@
 require 'sinatra/base'
 require 'sinatra/reloader'
+require_relative 'lib/property_repository'
+require_relative 'lib/database_connection'
+
+DatabaseConnection.connect('makersbnb_test')
 
 class Application < Sinatra::Base
   configure :development do
@@ -7,6 +11,8 @@ class Application < Sinatra::Base
   end
 
   get '/' do
+    repo = PropertyRepository.new
+    @properties = repo.all
     return erb(:index)
   end
 end
