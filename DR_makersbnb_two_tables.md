@@ -199,6 +199,7 @@ CREATE TABLE bookings (
   owner_id int references owners(id),
   user_id int references users(id)
 );
+ 
 
 ```
 
