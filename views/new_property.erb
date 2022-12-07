@@ -6,21 +6,21 @@
   integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">   
     </head>
     <body>
-      <form>
+      <form method="POST" action="/new_property">
       <div class="mb-3">
         <label for="property_name" class="form-label">Property Name</label>
-        <input type="text" class="form-control" id="exampl_property_name">
+        <input type="text" class="form-control" name='property_name'>
       </div>
       <div class="mb-3">
         <label for="property_description" class="form-label">Property Description</label>
-        <input type="text" class="form-control" id="exampl_property_description">
+        <input type="text" class="form-control" name='property_description'>
       </div>
       <div class="mb-3">
         <label for="property_price_per_night" class="form-label">Price p/night</label>
-        <input type="number" class="form-control" id="example_price_per_night">
+        <input type="text" class="form-control" name='price_per_night'>
       </div>
-      <button type="button" class="btn btn-success">Add Property</button>
-      <button type="button" class="btn btn-danger">Cancel</button>
+      <button type="submit" class="btn btn-success">Add Property</button>
+      <button type="submit" class="btn btn-danger">Cancel</button>
         </form>
       </body>
 </html>
