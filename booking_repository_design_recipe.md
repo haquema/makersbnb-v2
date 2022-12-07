@@ -10,10 +10,11 @@ In this template, we'll use an example table students
 
 # EXAMPLE
 
-Table: students
+Table: Bookings
 
 Columns:
-id | name | cohort_name
+property_id | user_id | owner_id | requested_dates
+
 2. Create Test SQL seeds
 Your tests will depend on data stored in PostgreSQL to run.
 
@@ -28,30 +29,34 @@ If seed data is provided (or you already created it), you can skip this step.
 -- so we can start with a fresh state.
 -- (RESTART IDENTITY resets the primary key)
 
-TRUNCATE TABLE students RESTART IDENTITY; -- replace with your own table name.
+TRUNCATE TABLE users, owners, properties, bookings, available_dates RESTART IDENTITY CASCADE;
 
--- Below this line there should only be `INSERT` statements.
--- Replace these statements with your own seed data.
 
-INSERT INTO students (name, cohort_name) VALUES ('David', 'April 2022');
-INSERT INTO students (name, cohort_name) VALUES ('Anna', 'May 2022');
-Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
+INSERT INTO users (username, email_address, password) VALUES ('aziz', 'aziz@gmail.com', 'hello1234');
+INSERT INTO users (username, email_address, password) VALUES ('anthony', 'anthony@gmail.com', 'bye1234');
+INSERT INTO owners (user_id) VALUES ('1');
+INSERT INTO owners (user_id) VALUES ('2');
+INSERT INTO properties (property_name, property_description, price_per_night, owner_id) VALUES ('Spaceship-style treehouse', 'you''ll be sure to have an out of this world experience in our UFO-styled treehouse', 200, 1);
+INSERT INTO properties (property_name, property_description, price_per_night, owner_id) VALUES ('Dome of the Future', 'Our beautiful camping pods are modelled on the eden project domes', 250, 1);
+INSERT INTO properties (property_name, property_description, price_per_night, owner_id) VALUES ('Starship Enterprise in the Forest', 'Get the ultimate star-trek experience right in the heart of the new forest', 500, 1);
+INSERT INTO bookings (requested_dates, property_id, owner_id, user_id) VALUES ('07/12/2022', 1, 1, 1);
 
 psql -h 127.0.0.1 your_database_name < seeds_{table_name}.sql
+
 3. Define the class names
 Usually, the Model class name will be the capitalised table name (single instead of plural). The same name is then suffixed by Repository for the Repository class name.
 
 # EXAMPLE
-# Table name: students
+# Table name: bookings
 
 # Model class
-# (in lib/student.rb)
-class Student
+# (in lib/booking.rb)
+class Booking
 end
 
 # Repository class
-# (in lib/student_repository.rb)
-class StudentRepository
+# (in lib/booking_repository.rb)
+class BookingRepository
 end
 4. Implement the Model class
 Define the attributes of your Model class. You can usually map the table columns to the attributes of the class, including primary and foreign keys.

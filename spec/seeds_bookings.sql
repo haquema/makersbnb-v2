@@ -1,5 +1,14 @@
-TRUNCATE TABLE users, owners, properties, bookings, available_dates RESTART IDENTITY CASCADE;
+DROP TABLE IF EXISTS bookings; 
 
+CREATE TABLE bookings (
+  id SERIAL PRIMARY KEY,
+  requested_dates date,
+  property_id int,
+  owner_id int,
+  user_id int
+);
+
+TRUNCATE TABLE users, owners, properties, bookings, available_dates RESTART IDENTITY CASCADE;
 
 INSERT INTO users (username, email_address, password) VALUES ('aziz', 'aziz@gmail.com', 'hello1234');
 INSERT INTO users (username, email_address, password) VALUES ('anthony', 'anthony@gmail.com', 'bye1234');

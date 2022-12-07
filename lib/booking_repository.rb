@@ -21,13 +21,23 @@ class BookingRepository
     return bookings 
   end
 
-=begin
+  def find(id)
+    sql = 'SELECT id, requested_dates, property_id, owner_id user_id FROM bookings WHERE id = $1;'
+    result_set = DatabaseConnection.exec_params(sql, [id])
 
-  def create(user)
+    booking = Booking.new
+    booking.id = result_set[0]['id'].to_i
+    booking.requested_dates = result_set[0]['requested_dates']
+    booking.property_id = result_set[0]['property_id'].to_i
+    booking.owner_id = result_set[0]['owner_id'].to_i
+    booking.user_id = result_set[0]['user_id'].to_i
 
-    sql = 'INSERT into users (username, email_address, password) VALUES ($1, $2, $3)'
-    params = [user.username, user.email_address, user.password]
+    return booking
+  end  
+              
+  def create(booking)
+    sql = 'INSERT INTO bookings (requested_dates, property_id, owner_id, user_id) VALUES ($1, $2, $3, $4);'
+    params = [booking.requested_dates, booking.property_id, booking.owner_id, booking.user_id]
     DatabaseConnection.exec_params(sql, params)
   end
-=end
 end
