@@ -21,4 +21,8 @@ class Application < Sinatra::Base
     @properties = repo.all
     return erb(:properties)
   end
+
+  get '/new_property' do
+    return erb(:new_property)
+  end
 end

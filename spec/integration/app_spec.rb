@@ -34,4 +34,13 @@ describe Application do
       expect(response.body).to include('<p>200</p>')
     end
   end
+
+  context "GET /new_property" do
+    it 'returns 200' do
+      response = get('/new_property')
+
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<div id="emailHelp" class="form-text">We\'ll never share your email with anyone else.</div>')
+    end
+  end
 end
