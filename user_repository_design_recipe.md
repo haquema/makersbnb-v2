@@ -11,8 +11,6 @@ Otherwise, [follow this recipe to design and create the SQL schema for your tabl
 *In this template, we'll use an example table `students`*
 
 ```
-# EXAMPLE
-
 Table: Users
 
 Columns:
@@ -21,30 +19,13 @@ id | username | email_address | password
 
 ## 2. Create Test SQL seeds
 
-Your tests will depend on data stored in PostgreSQL to run.
-
-If seed data is provided (or you already created it), you can skip this step.
-
 ```sql
--- EXAMPLE
--- (file: spec/seeds_{table_name}.sql)
-
--- Write your SQL seed here. 
-
--- First, you'd need to truncate the table - this is so our table is emptied between each test run,
--- so we can start with a fresh state.
--- (RESTART IDENTITY resets the primary key)
-
-TRUNCATE TABLE users RESTART IDENTITY; -- replace with your own table name.
-
--- Below this line there should only be `INSERT` statements.
--- Replace these statements with your own seed data.
+TRUNCATE TABLE users RESTART IDENTITY; 
 
 INSERT INTO users (username, email_address, password) VALUES ('aziz', 'aziz@gmail.com', 'hello1234');
 INSERT INTO users (username, email_address, password) VALUES ('anthony', 'anthony@gmail.com', 'bye1234');
 ```
 
-Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
 
 ```bash
 psql -h 127.0.0.1 your_database_name < seeds_{table_name}.sql
@@ -52,19 +33,14 @@ psql -h 127.0.0.1 your_database_name < seeds_{table_name}.sql
 
 ## 3. Define the class names
 
-Usually, the Model class name will be the capitalised table name (single instead of plural). The same name is then suffixed by `Repository` for the Repository class name.
-
-```ruby
-# EXAMPLE
-# Table name: students
 
 # Model class
-# (in lib/student.rb)
+# (in lib/user.rb)
 class User
 end
 
 # Repository class
-# (in lib/student_repository.rb)
+# (in lib/user_repository.rb)
 class UserRepository
 end
 ```
@@ -75,24 +51,15 @@ Define the attributes of your Model class. You can usually map the table columns
 
 ```ruby
 # EXAMPLE
-# Table name: students
+# Table name: users
 
 # Model class
-# (in lib/student.rb)
+# (in lib/user.rb)
 
 class User
-
-  # Replace the attributes by your own columns.
   attr_accessor :id, :username, :email_address, :password
 end
 
-# The keyword attr_accessor is a special Ruby feature
-# which allows us to set and get attributes on an object,
-# here's an example:
-#
-# student = Student.new
-# student.name = 'Jo'
-# student.name
 ```
 
 *You may choose to test-drive this class, but unless it contains any more logic than the example above, it is probably not needed.*
@@ -105,43 +72,38 @@ Using comments, define the method signatures (arguments and return value) and wh
 
 ```ruby
 # EXAMPLE
-# Table name: students
+# Table name: users
 
 # Repository class
-# (in lib/student_repository.rb)
+# (in lib/user_repository.rb)
 
 class UserRepository
 
-  #creates a user 
+  # Creates a new user
   def create(user)
     # Executes the SQL query:
-    INSERT into users
-    ( username, email_address, password )
-    VALUES ( $1, $2, $3 )
+    # INSERT into users
+    # ( username, email_address, password )
+    # VALUES ( $1, $2, $3 )
+
+    # Returns nothing
   end
 
-  #Deletes a user entry
+  # Deletes a user entry
   def delete(id)
-    sql = 'DELETE FROM users WHERE id = $1;'	
-  end
-
-  #Updates a user entry
-  def update(user)
-    sql = 'UPDATE users SET username = $1, email_address = $2, password = $3;' 
-  end
-
-  def find(id)
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students WHERE id = $1;
+    # DELETE FROM users WHERE id = $1;
 
-    # Returns a single Student object.
+    # Returns nothing
   end
 
-  # Add more methods below for each operation you'd like to implement.
+  # Updates a user entry
+  def update(user)
+    # Executes the SQL query:
+    # UPDATE users SET username = $1, email_address = $2, password = $3;
 
-  # def create(student)
-  # end
-
+    # Returns nothing
+  end
 end
 ```
 
