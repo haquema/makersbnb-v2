@@ -17,4 +17,11 @@ Awareness of others needs
 
 We will have a nominated leader/spokesperson which will rotate daily
 
+Monday - Eliza
+Tuesday - Mike
+Wednesday - Nicola
+Thursday - Aziz
+Friday - Anthony (Eliza)
+
+
 When we are upset we will raise it immediately in the Slack channel, separating the facts and the story as far as we are able, and giving actionable, specific and kind feedback as appropriate

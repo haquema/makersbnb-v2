@@ -194,11 +194,12 @@ CREATE TABLE available_dates (
 
 CREATE TABLE bookings (
   id SERIAL PRIMARY KEY,
- 
-  constraint fk_owner foreign key(owner_id)
-    references owners(id)
-    on delete cascade
+  requested_dates date,
+  property_id int references properties(id),
+  owner_id int references owners(id),
+  user_id int references users(id)
 );
+ 
 
 ```
 
