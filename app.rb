@@ -10,6 +10,10 @@ class Application < Sinatra::Base
     register Sinatra::Reloader
   end
 
+  get '/template' do
+    return erb(:template_copy)
+  end
+
   get '/' do
     repo = PropertyRepository.new
     @properties = repo.all
