@@ -1,5 +1,5 @@
 require_relative './property'
-require 'database_connection'
+require_relative 'database_connection'
 
 class PropertyRepository
   def all
