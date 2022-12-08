@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap');
 
 * {
-  box-sizing: border-box
+  box-sizing: border-box;
 }
 
 body {
@@ -74,38 +74,5 @@ form {
 
 .form_buttons {
   display: flex;
-  width: 
-  justify-content: space-between;
-}
-
-
-.box {
-  background-color: #10612d;
-  border-radius: 10px;
-  box-shadow: 3px 3px #888888;
-  height: 30;
-  width: 80;
-  text-align: center;
-}
-​
-.box2 {
-  background-color: #05b082;
-  border-radius: 10px;
-  box-shadow: 3px 3px #888888;
-  height: 30;
-  width: 80;
-}
-​
-.button_text {
-  color: #FFFFFF;
-  font-size: 10px; 
-  padding: 8px 0px 0px 0px;
-}
-​
-.properties_box {
-  width: 400;
-  height: 100;
-  border: 1px solid #888888;
-  border-radius: 10px;
-  box-shadow: 3px 3px #888888;
+  justify-items: space-between;
 }

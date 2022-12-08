@@ -65,44 +65,14 @@ body {
   color: e7f5b0
 }
 
-.log-in-form {
-
-}
-
 form {
+  /* border: 1px solid grey; */
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px grey;
+}
 
-}
-
-.form_box {
-  
-}
-.box {
-  background-color: #10612d;
-  border-radius: 10px;
-  box-shadow: 3px 3px #888888;
-  height: 30;
-  width: 80;
-  text-align: center;
-}
-​
-.box2 {
-  background-color: #05b082;
-  border-radius: 10px;
-  box-shadow: 3px 3px #888888;
-  height: 30;
-  width: 80;
-}
-​
-.button_text {
-  color: #FFFFFF;
-  font-size: 10px; 
-  padding: 8px 0px 0px 0px;
-}
-​
-.properties_box {
-  width: 400;
-  height: 100;
-  border: 1px solid #888888;
-  border-radius: 10px;
-  box-shadow: 3px 3px #888888;
+.form_buttons {
+  display: flex;
+  justify-items: space-between;
 }
