@@ -14,6 +14,10 @@ class Application < Sinatra::Base
     register Sinatra::Reloader
   end
 
+  get '/template' do
+    return erb(:template_copy)
+  end
+
   get '/' do
     repo = PropertyRepository.new
     @properties = repo.all
@@ -63,5 +67,23 @@ class Application < Sinatra::Base
 
   get '/new_property' do
     return erb(:new_property)
+  end
+
+  post '/new_property' do
+    
+    repo = PropertyRepository.new
+
+    property_name = params[:property_name]
+    property_description = params[:property_description]
+    price_per_night = params[:price_per_night]
+
+    new_property = Property.new
+    new_property.property_name = property_name
+    new_property.property_description = property_description
+    new_property.price_per_night = price_per_night
+
+    repo.create(new_property)
+
+    redirect('/properties')
   end
 end

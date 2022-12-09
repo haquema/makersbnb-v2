@@ -1,4 +1,13 @@
-TRUNCATE TABLE users, owners, properties, bookings, available_dates RESTART IDENTITY;
+DROP TABLE IF EXISTS users; 
+
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  username text,
+  email_address text,
+  password text
+);
+
+TRUNCATE TABLE users, owners, properties, bookings RESTART IDENTITY;
 
 
 INSERT INTO users (username, email_address, password) VALUES ('aziz', 'aziz@gmail.com', 'hello1234');
