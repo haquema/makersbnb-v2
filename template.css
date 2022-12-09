@@ -1,37 +1,78 @@
 @import url('https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap');
 
+* {
+  box-sizing: border-box;
+}
+
 body {
-  margin: 50px 50px 0px 50px;
-  font-family: 'zen dots';
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  margin: 0;
 }
-​
-.box {
-  background-color: #10612d;
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100vw;
+  height: 100vh;;
+}
+
+.banner {
+  position: relative;
+  height: 80px;
+  max-height:198px;
+  width: 100%;
+  max-width: 1279px;
+  background-color: #46857b;
+  overflow: hidden;
+}
+
+.banner .content {
+  display: flex;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-height: 100%;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+.banner .content .logo {
+  max-height: 80px;
+  max-width: 132px;
+  width: auto;
+}
+
+.banner .content .right {
+  display: flex;
+  flex-direction: flex-start;
+  justify-content: space-around;
+  align-items: center;
+  width: 100px;
+  margin: 0px 10px 0px 0px;
+}
+
+.banner .content .menu {
+  margin: 2px;
+  color: e7f5b0
+}
+
+.banner .content .login {
+  margin: 2px;
+  color: e7f5b0
+}
+
+form {
+  /* border: 1px solid grey; */
+  padding: 30px;
   border-radius: 10px;
-  box-shadow: 3px 3px #888888;
-  height: 30;
-  width: 80;
-  text-align: center;
+  box-shadow: 0px 4px 8px grey;
 }
-​
-.box2 {
-  background-color: #05b082;
-  border-radius: 10px;
-  box-shadow: 3px 3px #888888;
-  height: 30;
-  width: 80;
-}
-​
-.button_text {
-  color: #FFFFFF;
-  font-size: 10px; 
-  padding: 8px 0px 0px 0px;
-}
-​
-.properties_box {
-  width: 400;
-  height: 100;
-  border: 1px solid #888888;
-  border-radius: 10px;
-  box-shadow: 3px 3px #888888;
+
+.form_buttons {
+  display: flex;
+  justify-items: space-between;
 }
