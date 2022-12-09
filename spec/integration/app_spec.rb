@@ -24,6 +24,7 @@ describe Application do
       expect(response.status).to eq(404)
     end
   end
+
   context "GET /" do
     it 'returns 200 OK' do
       response = get('/properties')
@@ -36,7 +37,7 @@ describe Application do
   end
 
   context "GET /new_property" do
-    it 'returns 200' do
+    xit 'returns 200' do
       response = get('/new_property')
 
       expect(response.status).to eq(200)
@@ -50,6 +51,23 @@ describe Application do
 
       expect(response.status).to eq(302)
       expect(response.body).to eq ''
+    end
+  end
+
+  context "GET /signup" do
+    it 'returns 200' do
+      response = get('/signup')
+
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<h1> Welcome to MakersBnB! </h1>')
+    end
+  end
+
+  context "POST /signup" do
+    it 'inserts a new user' do
+      response = post('/signup')
+
+      expect(response.status).to eq(200)
     end
   end
 end
