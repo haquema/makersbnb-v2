@@ -8,7 +8,7 @@ CREATE TABLE bookings (
   user_id int
 );
 
-TRUNCATE TABLE users, owners, properties, bookings, available_dates RESTART IDENTITY CASCADE;
+TRUNCATE TABLE users, owners, properties, bookings RESTART IDENTITY CASCADE;
 
 INSERT INTO users (username, email_address, password) VALUES ('aziz', 'aziz@gmail.com', 'hello1234');
 INSERT INTO users (username, email_address, password) VALUES ('anthony', 'anthony@gmail.com', 'bye1234');

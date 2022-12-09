@@ -41,7 +41,16 @@ describe Application do
       response = get('/new_property')
 
       expect(response.status).to eq(200)
-      expect(response.body).to include('<div id="emailHelp" class="form-text">We\'ll never share your email with anyone else.</div>')
+      expect(response.body).to include('<label for="property_name" class="form-label">Property Name</label>')
+    end
+  end
+
+  context "POST /new_property" do
+    it 'creates a new property' do
+      response = post('/new_property?property_name&property_description&price_per_night')
+
+      expect(response.status).to eq(302)
+      expect(response.body).to eq ''
     end
   end
 
