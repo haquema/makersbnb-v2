@@ -34,9 +34,10 @@ class UserRepository
     return user
   end
 
-  def create(user)
+  def create(new_user)
+    # encrypted_password = Bcrypt::Password.create(new_user.password)
     sql = 'INSERT into users (username, email_address, password) VALUES ($1, $2, $3)'
-    params = [user.username, user.email_address, user.password]
+    params = [new_user.username, new_user.email_address, new_user.password]
     DatabaseConnection.exec_params(sql, params)
   end
 end

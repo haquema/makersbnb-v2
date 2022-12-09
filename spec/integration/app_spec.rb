@@ -15,7 +15,7 @@ describe Application do
       expect(response.status).to eq(200)
       expect(response.body).to include('<p>Spaceship-style treehouse</p>')
       expect(response.body).to include('<p>you\'ll be sure to have an out of this world experience in our UFO-styled treehouse</p>')
-      expect(response.body).to include('<p>200</p>')
+      expect(response.body).to include('<p>£200</p>')
     end
 
     it 'returns 404 Not Found' do
@@ -32,7 +32,7 @@ describe Application do
       expect(response.status).to eq(200)
       expect(response.body).to include('<p>Spaceship-style treehouse</p>')
       expect(response.body).to include('<p>you\'ll be sure to have an out of this world experience in our UFO-styled treehouse</p>')
-      expect(response.body).to include('<p>200</p>')
+      expect(response.body).to include('<p>£200</p>')
     end
   end
 
@@ -47,7 +47,7 @@ describe Application do
 
   context "POST /new_property" do
     it 'creates a new property' do
-      response = post('/new_property?property_name&property_description&price_per_night')
+      response = post('/new_property?property_name=NewSpace&property_description=Incredible&price_per_night=330')
 
       expect(response.status).to eq(302)
       expect(response.body).to eq ''
@@ -59,15 +59,18 @@ describe Application do
       response = get('/signup')
 
       expect(response.status).to eq(200)
-      expect(response.body).to include('<h1> Welcome to MakersBnB! </h1>')
+      expect(response.body).to include('<h2>Welcome to MakersBnB!</h2>')
     end
   end
 
   context "POST /signup" do
     it 'inserts a new user' do
-      response = post('/signup')
+      response = post('/signup?username=Moana&email_address=mqueen@islandmail.com&password=test')
 
-      expect(response.status).to eq(200)
+      repo = UserRepository.new
+      
+      expect(repo.all.length).to eq 3
+      expect(response.status).to eq(302)
     end
   end
 end
