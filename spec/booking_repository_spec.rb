@@ -1,14 +1,14 @@
 require 'booking_repository'
 
 RSpec.describe BookingRepository do
-  def reset_bookings_table
-    seed_sql = File.read('spec/seeds_bookings.sql')
+  def reset_tables
+    seed_sql = File.read('spec/seeds_tables.sql')
     connection = PG.connect({ host: '127.0.0.1', dbname: 'makersbnb_test' })
     connection.exec(seed_sql)
   end
     
   before(:each) do 
-    reset_bookings_table
+    reset_tables
   end
   
   describe '#all' do 

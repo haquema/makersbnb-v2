@@ -1,15 +1,15 @@
 require 'owner_repository'
 require 'owner'
 
-def reset_owners_table
-  seed_sql = File.read('spec/seeds_owners.sql')
+def reset_tables
+  seed_sql = File.read('spec/seeds_tables.sql')
   connection = PG.connect({ host: '127.0.0.1', dbname: 'makersbnb_test' })
   connection.exec(seed_sql)
 end
 
 describe OwnerRepository do
   before(:each) do 
-    reset_owners_table
+    reset_tables
   end
 
   context "Owner Repository" do
@@ -33,17 +33,13 @@ describe OwnerRepository do
     it "can create a new owner" do
       repo = OwnerRepository.new
 
-      owner = Owner.new
-      owner.id = '3'
-      owner.user_id = '3'
+      repo.create_owner(2)
 
       owners = repo.all
-      repo.create(owner)
-
       last_owner = owners.last
 
-      expect(last_owner.id).to eq ('3')
-      expect(last_owner.user_id).to eq ('3')
+      expect(last_owner.id).to eq (3)
+      expect(last_owner.user_id).to eq (2)
     end
   end
-  end
+end

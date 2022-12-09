@@ -30,9 +30,9 @@ class OwnerRepository
       return owner
     end
 
-    def create(owner)
-      sql = 'INSERT INTO owners (user_id) VALUES($1);'
-      sql_params = [owner.user_id]
+    def create_owner(user_id)
+      sql = 'INSERT INTO owners (user_id) VALUES ($1);'
+      sql_params = [user_id]
       
       DatabaseConnection.exec_params(sql, sql_params)
   
