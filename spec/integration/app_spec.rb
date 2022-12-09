@@ -2,6 +2,7 @@ require "spec_helper"
 require "rack/test"
 require_relative '../../app'
 require 'json'
+require 'Bcrypt'
 
 describe Application do
   include Rack::Test::Methods
@@ -66,11 +67,13 @@ describe Application do
   context "POST /signup" do
     it 'inserts a new user' do
       response = post('/signup?username=Moana&email_address=mqueen@islandmail.com&password=test')
-
+      # encrypted_password = BCrypt::Password.create(:password)
       repo = UserRepository.new
       
       expect(repo.all.length).to eq 3
       expect(response.status).to eq(302)
+      # expect(repo.all.password).to eq BCrypt::Password.create('test')
+      expect(repo.all.last.password).to eq('test')
     end
   end
 end

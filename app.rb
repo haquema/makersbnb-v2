@@ -37,7 +37,6 @@ class Application < Sinatra::Base
     new_user.password = params[:password]
 
     repo.create(new_user)
-  
     redirect('/properties')
   end
 
