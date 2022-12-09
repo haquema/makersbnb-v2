@@ -24,6 +24,7 @@ describe Application do
       expect(response.status).to eq(404)
     end
   end
+
   context "GET /" do
     it 'returns 200 OK' do
       response = get('/properties')
@@ -36,11 +37,20 @@ describe Application do
   end
 
   context "GET /new_property" do
-    it 'returns 200' do
+    it 'returns 200 OK' do
       response = get('/new_property')
 
       expect(response.status).to eq(200)
       expect(response.body).to include('<div id="emailHelp" class="form-text">We\'ll never share your email with anyone else.</div>')
+    end
+  end
+
+  context 'GET /bookings/new' do
+    it 'should return the html form to create a new booking' do
+      response = get('/booking/new')
+
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<form method="POST" action="/booking">')
     end
   end
 end
