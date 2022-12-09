@@ -50,11 +50,11 @@ describe Application do
       response = get('/booking/new')
 
       expect(response.status).to eq(200)
-      expect(response.body).to include('<form method="POST" action="/booking_task"/>')
-      expect(response.body).to include('<input type="date" name="requested_dates"/>')
-      expect(response.body).to include('<input type="number" name="propery_id"/>')
-      expect(response.body).to include('<input type="number" name="owner_id"/>')
-      expect(response.body).to include('<input type="number" name="user-id"/>')
+      expect(response.body).to include('<form method="POST" action="/booking_task">')
+      expect(response.body).to include('<input type="date" class="form-control" name="requested_dates"/>')
+      expect(response.body).to include('<input type="number" class="form-control" name="property_id"/>')
+      expect(response.body).to include('<input type="number" class="form-control" name="owner_id"/>')
+      expect(response.body).to include('<input type="number" class="form-control" name="user_id"/>')
     end
   end
 
@@ -63,7 +63,7 @@ describe Application do
       response = post('/booking_task')
 
       expect(response.status).to eq(200)
-      expect(response.body).to include('<h1>You booking was requested!</h1>')
+      expect(response.body).to include('<h1>Your booking request has been sent to the host!</h1>')
     end
   end
 end

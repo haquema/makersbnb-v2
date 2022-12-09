@@ -25,9 +25,7 @@ class Application < Sinatra::Base
 
   get '/new_property' do
     return erb(:new_property)
-  end
-
-  #get '/booking-confirmation' 
+  end 
 
   get '/booking/new' do
     return erb(:new_booking)
