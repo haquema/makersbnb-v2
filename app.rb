@@ -33,20 +33,21 @@ class Application < Sinatra::Base
     return erb(:new_booking)
   end
 
-  post '/booking_request' do
-    repo = BookingRepository.new
+  post '/booking_task' do
+    #Get request body parameters
     requested_dates = params[:requested_dates]
     property_id = params[:property_id]
     owner_id = params[:owner_id]
     user_id = params[:user_id]
 
+    #Create a post in the database
     new_booking = Booking.new
     new_booking.requested_dates = requested_dates
     new_booking.property_id = property_id
     new_booking.owner_id = owner_id
     new_booking.user_id = user_id
-    repo.create(new_booking)
+    BookingRepository.new.create(new_booking)
 
-    return
+    return erb(:booking_request)
   end 
 end

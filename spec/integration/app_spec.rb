@@ -50,7 +50,20 @@ describe Application do
       response = get('/booking/new')
 
       expect(response.status).to eq(200)
-      expect(response.body).to include('<form method="POST" action="/booking">')
+      expect(response.body).to include('<form method="POST" action="/booking_task"/>')
+      expect(response.body).to include('<input type="date" name="requested_dates"/>')
+      expect(response.body).to include('<input type="number" name="propery_id"/>')
+      expect(response.body).to include('<input type="number" name="owner_id"/>')
+      expect(response.body).to include('<input type="number" name="user-id"/>')
+    end
+  end
+
+  context 'POST /booking_task' do
+    it 'should create a booking task and return a confirmation page' do
+      response = post('/booking_task')
+
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<h1>You booking was requested!</h1>')
     end
   end
 end
