@@ -38,7 +38,7 @@ describe Application do
   end
 
   context "GET /new_property" do
-    xit 'returns 200' do
+    it 'returns 200 OK' do
       response = get('/new_property')
 
       expect(response.status).to eq(200)
@@ -74,6 +74,28 @@ describe Application do
       expect(response.status).to eq(302)
       # expect(repo.all.password).to eq BCrypt::Password.create('test')
       expect(repo.all.last.password).to eq('test')
+    end
+  end
+
+  context 'GET /bookings/new' do
+    it 'should return the html form to create a new booking' do
+      response = get('/booking/new')
+
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<form method="POST" action="/booking_task">')
+      expect(response.body).to include('<input type="date" class="form-control" name="requested_dates"/>')
+      expect(response.body).to include('<input type="number" class="form-control" name="property_id"/>')
+      expect(response.body).to include('<input type="number" class="form-control" name="owner_id"/>')
+      expect(response.body).to include('<input type="number" class="form-control" name="user_id"/>')
+    end
+  end
+
+  context 'POST /booking_task' do
+    it 'should create a booking task and return a confirmation page' do
+      response = post('/booking_task')
+
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<h1>Your booking request has been sent to the host!</h1>')
     end
   end
 end
