@@ -5,7 +5,7 @@
       integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">   
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg" style="background-color: #398378;">
+    <nav class="navbar navbar-expand-lg fixed-top" style="background-color: #398378;">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
           <img src="../template_images/MakersBnB_Test_Logo_2">
@@ -22,18 +22,19 @@
               <a class="nav-link active" aria-current="page" href="/" style="color: #c8efc7;">Home</a>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/properties" style="color: #c8efc7;">Properties</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/new_property" style="color: #c8efc7;">Add a property!</a>
+            </li>
+
           </ul>
 
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          
             <li class="nav-item">
-              <a class="nav-link active" href="/signup" style="color: #c8efc7;">Sign Up</a>
+              <a class="nav-link active" href="/" style="color: #c8efc7;">Log Out</a>
             </li>
-
-            <li class="nav-item">
-              <a class="nav-link active" href="/login" style="color: #c8efc7;">Log In</a>
-            </li>
-
           </ul>
         </div>
       </div>
@@ -57,7 +58,7 @@
         </div>
 
         <div class="mb-3">
-          <label for="property_price_per_night" class="form-label">Price p/night</label>
+          <label for="property_price_per_night" class="form-label">Price Per Night</label>
           <input type="number" class="form-control" id="price_per_night">
         </div>
 
@@ -67,7 +68,10 @@
         </div>
 
         <button type="button" class="btn btn-success">Add Property</button>
-        <button type="button" class="btn btn-danger">Cancel</button>
+        
+        <a href="/properties">
+          <button type="button" class="btn btn-danger">Cancel</button>
+        </a>
       </form>
     </div>
   </body>
