@@ -7,37 +7,31 @@ Copy this recipe template to design and create two related database tables from 
 # EXAMPLE USER STORY:
 # (analyse only the relevant part - here the final line).
 
-As a property owner
-I want to be able to sign up 
-so that I can list a new property.
+As a user: 
+  I want to be able to sign up and login to my account
+  I want to be able to modify my details
 
-As a property owner
-I want to be able to list multiple spaces
-so that I can have multiple listings.
+As a property owner:
+  I want to see an inventory of the properties I am renting out
+  I want to be able to add a new property to my inventory 
+  I want to be able to remove a property from my inventory
+  I want to be able to edit the details of a property
+  I want to be able to make a property available for renting
+  I want to be able to choose a property's available dates 
+  I want to be able to see all booking requests made on my properties
+  I want to be able to approve or reject requests and cancel preexisting bookings
 
-As a property owner
-I should be able to name my space, provide a short description of the property, and a price per night
-so that I have control over how I advertise my space.
+As a renter:
+  I want to be see a list of rentable properties
+  I want to filter the properties by price
+  I want to be able to make a request on a property
+  I want to be able to be able to see a list of my booking requests/confirmed booking
 
-As a property owner
-I should be able to offer a range of dates where my space is available
-so that I don't have clashing bookings, and control the availability of my location, as well as automate the process of booking my property.
+user, name, email, phone_number, password
 
-As a renter
-I want to be able to request to hire any space for one night
-so that I can make a booking, 
+property, name, description, price, to_rent, available_dates
 
-As a property owner
-I want to be able to confirm my booking request,
-so that any property can still be booked for that night until I have confirmed my booking.
-
-As a renter
-I want to be able to see a list of available properties for a given date 
-so that I can make the best choice for my needs.
-
-
-
-Nouns: owner, renter, property, listing, property_name, property_description, space_price, available_properties, available_dates, booking, booking_dates, booking_confirmation
+bookings, renter, property, property owner, start date, end date, status
 
 
 
@@ -48,39 +42,30 @@ Put the different nouns in this table. Replace the example with your own nouns.
 
 Record            Properties
 ---------------------------------------------------------------------------
-Users             Name, Type (?), Email, Password
+Users             Name, Email, Phone, Password
 
-Properties        Name, Description, Price per Night, Available Dates
+Properties        Name, Description, Price, ToRent, Owner
 
-Bookings          Property name, Renter Name, Renter Email, Booking Date
-
-Available Dates   Date, Property ID, Date Available? (Y/N)
+Bookings          Property, Renter, Start Date, End Date, Status
 ---------------------------------------------------------------------------
 
 
 
 Name of the first table (always plural): Users
 
-Column names: username, user_type, email_address, password
+Column names: name, email_address, phone, password
 
 
 Name of the second table (always plural): Properties
 
-Column names: property_name, description, price_per_night
+Column names: name, description, price, to_rent, owner
 
 
 Name of the third table: Bookings
 
-renter_name, renter_email_address, booking_date, property_id
-
-
-Name of fourth table: Available dates:
-
-date, property_id, date_available? (Y/N)
+property, renter, owner, start_date, end_date, status
 
 3. Decide the column types.
-
-Here's a full documentation of PostgreSQL data types.
 
 Most of the time, you'll need either text, int, bigint, numeric, or boolean. If you're in doubt, do some research or ask your peers.
 
@@ -91,63 +76,42 @@ Remember to always have the primary key id as a first column. Its type will alwa
 
 Table: users
 id: SERIAL
-username: text
-email_address: text
-password: text
-
-Table: owners
-id: SERIAL
 name: text
 email_address: text
+phone: int
 password: text
 
 Table: properties
 id: SERIAL
-property_name: text
+name: text
 description: text
-price_per_night: int
-user: int
+price: int
+to_rent: boolean
+
 
 Table: bookings
 id: SERIAL
-renter_name: text
-renter_email_address: text
-booking_date: DATE
-property_id: int
+property: int FK
+renter: FK
+start_date: date
+end_date: date
+status: text
 
-table: available_dates
-date: DATE
-property_id: int
-date_available: boolean
 
 
 
 4. Decide on The Tables Relationship
 
-Most of the time, you'll be using a one-to-many relationship, and will need a foreign key on one of the two tables.
 
-To decide on which one, answer these two questions:
 
 Can one [TABLE ONE] have many [TABLE TWO]? (Yes/No)
 Can one [TABLE TWO] have many [TABLE ONE]? (Yes/No)
 You'll then be able to say that:
 
-[A] has many [B]
-And on the other side, [B] belongs to [A]
-In that case, the foreign key is in the table [B]
-Replace the relevant bits in this example with your own:
+Users to Properties is One to Many with foreign key in Properties
+Users to Bookings is One to Many with foreign key in Bookings
+Properties to Bookings is One to Many with foreign Key in Bookings
 
-# EXAMPLE
-
-1. Can one user have many properties? YES
-2. Can one property have many users? NO
-
--> Therefore,
--> An artist HAS MANY albums
--> An album BELONGS TO an artist
-
--> Therefore, the foreign key is on the albums table.
-If you can answer YES to the two questions, you'll probably have to implement a Many-to-Many relationship, which is more complex and needs a third table (called a join table).
 
 4. Write the SQL.
 
@@ -158,48 +122,39 @@ DATABASE NAME - makersbnb + makersbnb_test
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
-  username text,
+  name text,
   email_address text,
+  phone int,
   password text
 );
 
-CREATE TABLE owners (
+CREATE TABLE properties (
   id SERIAL PRIMARY KEY,
-  user_id int,
+  name text,
+  description text,
+  price int,
+  to_rent boolean,
+  user_id int
   constraint fk_user foreign key(user_id)
     references users(id)
     on delete cascade
 );
 
-CREATE TABLE properties (
+CREATE TABLE bookings (
   id SERIAL PRIMARY KEY,
-  property_name text,
-  property_description text,
-  price_per_night int,
-  owner_id int,
-  constraint fk_owner foreign key(owner_id)
-    references owners(id)
-    on delete cascade
-);
-
-CREATE TABLE available_dates (
-  id SERIAL PRIMARY KEY,
-  date DATE,
   property_id int,
-  available BOOLEAN,
   constraint fk_property foreign key(property_id)
     references properties(id)
     on delete cascade
+  user_id int,
+  constraint fk_user foreign key(user_id)
+    references users(id)
+    on delete cascade
+  start_date: date
+  end_date: date
+  status: text
 );
 
-CREATE TABLE bookings (
-  id SERIAL PRIMARY KEY,
-  requested_dates date,
-  property_id int references properties(id),
-  owner_id int references owners(id),
-  user_id int references users(id)
-);
- 
 
 ```
 
