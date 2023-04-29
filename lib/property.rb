@@ -1,3 +1,3 @@
 class Property
-  attr_accessor :id, :property_name, :property_description, :price_per_night, :owner_id
+  attr_accessor :id, :name, :description, :price, :to_rent, :user_id
 end
