@@ -36,7 +36,7 @@ class PropertyRepository
     params = [id]
     DatabaseConnection.exec_params(sql, params)
   end
-
+  
   private
 
   def record_to_object(user, record)
