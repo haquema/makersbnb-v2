@@ -39,9 +39,9 @@ class PropertyRepository
   
   private
 
-  def record_to_object(user, record)
-    record.each do |column, value|
-      user.column = value
+  def record_to_object(object, record)
+    record.each do |key, value|
+      object.key = value
     end
   end
 end
