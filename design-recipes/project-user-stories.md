@@ -16,4 +16,4 @@ As a renter:
   I want to be see a list of rentable properties
   I want to filter the properties by price
   I want to be able to make a request on a property
-  I want to be able to be able to see a list of my booking requests/confirmed bookings
+  I want to be able to be able to see a list of my booking requests/confirmed booking
