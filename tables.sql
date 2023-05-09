@@ -1,8 +1,10 @@
+DROP TABLE users, properties, bookings;
+
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   name text,
   email_address text,
-  phone int,
+  phone bigint,
   password text
 );
 
