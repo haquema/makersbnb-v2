@@ -6,7 +6,7 @@ require_relative 'lib/user'
 require_relative 'lib/database_connection'
 require_relative 'lib/booking_repository'
 
-DatabaseConnection.connect('makersbnb_test')
+DatabaseConnection.connect('makersbnb')
 
 class Application < Sinatra::Base
   enable :sessions
@@ -15,30 +15,12 @@ class Application < Sinatra::Base
     register Sinatra::Reloader
   end
 
-  get '/template' do
-    return erb(:template_copy)
-  end
-
   get '/' do
-    repo = PropertyRepository.new
-    @properties = repo.all
     return erb(:index)
   end
 
   get '/signup' do
     return erb(:signup)
-  end
-
-  post '/signup' do
-    repo = UserRepository.new
-
-    new_user = User.new
-    new_user.username = params[:username]
-    new_user.email_address = params[:email_address]
-    new_user.password = params[:password]
-
-    repo.create(new_user)
-    redirect('/properties')
   end
 
   get '/login' do
@@ -49,63 +31,18 @@ class Application < Sinatra::Base
     email = params[:email]
     password = params[:password]
 
-    user = User.new
-
-    if user.password == password
-      session[:user_id] = user.user_id
-      redirect('/properties')
-    else
-      redirect('/login')
-    end
+    @users = UserRepository.new.find(email)
+    @type = type(@users)
+    # if @users.length == 0
+    #   return erb(:no_user_found)
+    # else
+    #   return erb(:logged_in)
+    # end
+    return erb(:logged_in)
   end
 
   get '/properties' do
-    repo = PropertyRepository.new
-    @properties = repo.all
+    @properties = PropertyRepository.new.all
     return erb(:properties)
-  end
-
-  get '/new_property' do
-    return erb(:new_property)
-  end 
-
-  get '/booking/new' do
-    return erb(:new_booking)
-  end
-  
-  post '/booking_task' do
-    #Get request body parameters
-    requested_dates = params[:requested_dates]
-    property_id = params[:property_id]
-    owner_id = params[:owner_id]
-    user_id = params[:user_id]
-
-    #Create a post in the database
-    new_booking = Booking.new
-    new_booking.requested_dates = requested_dates
-    new_booking.property_id = property_id
-    new_booking.owner_id = owner_id
-    new_booking.user_id = user_id
-    BookingRepository.new.create(new_booking)
-
-    return erb(:booking_request)
-  end 
-
-  post '/new_property' do
-    
-    repo = PropertyRepository.new
-
-    property_name = params[:property_name]
-    property_description = params[:property_description]
-    price_per_night = params[:price_per_night]
-
-    new_property = Property.new
-    new_property.property_name = property_name
-    new_property.property_description = property_description
-    new_property.price_per_night = price_per_night
-
-    repo.create(new_property)
-
-    redirect('/properties')
   end
 end
