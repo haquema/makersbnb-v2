@@ -19,9 +19,22 @@ class PropertyRepository
   end
 
   def create(property)
-    sql = 'INSERT INTO properties (name, description, price, to_rent, user_id) VALUES $1, $2 $3 $4 $5'
-    params = [property.name, property.description, property.price, property.user_id]
+    sql = 'INSERT INTO properties (name, description, price, to_rent, user_id) VALUES ($1, $2, $3, $4, $5)'
+    params = [property.name, property.description, property.price, property.to_rent, property.user_id]
     DatabaseConnection.exec_params(sql, params)
+  end
+
+  def find_by_owner(owner_id)
+    sql = 'SELECT name, description, price, to_rent, user_id FROM properties WHERE user_id = $1'
+    result_set = DatabaseConnection.exec_params(sql, [owner_id])
+
+    properties = []
+    result_set.each do |record|
+      property = Property.new
+      property_object_mapping(property, record)
+      properties << property
+    end
+    return properties
   end
 
   def update(property)

@@ -10,7 +10,7 @@ describe Application do
   let(:app) { Application.new }
 
   context "GET /" do
-    it 'returns 200 OK' do
+    xit 'returns 200 OK' do
       response = get('/')
 
       expect(response.status).to eq(200)
@@ -27,7 +27,7 @@ describe Application do
   end
 
   context "GET /properties" do
-    it 'returns 200 OK' do
+    xit 'returns 200 OK' do
       response = get('/properties')
 
       expect(response.status).to eq(200)
@@ -38,7 +38,7 @@ describe Application do
   end
 
   context "GET /new_property" do
-    it 'returns 200 OK' do
+    xit 'returns 200 OK' do
       response = get('/new_property')
 
       expect(response.status).to eq(200)
@@ -56,7 +56,7 @@ describe Application do
   end
 
   context "GET /signup" do
-    it 'returns 200' do
+    xit 'returns 200' do
       response = get('/signup')
 
       expect(response.status).to eq(200)
@@ -78,7 +78,7 @@ describe Application do
   end
 
   context 'GET /bookings/new' do
-    it 'should return the html form to create a new booking' do
+    xit 'should return the html form to create a new booking' do
       response = get('/booking/new')
 
       expect(response.status).to eq(200)

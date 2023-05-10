@@ -18,23 +18,55 @@ class UserRepository
     return users 
   end
 
-  def find(email_address)
-    sql = 'SELECT id, name, email_address, phone, password FROM users WHERE email_address = $1;'
-    # email_address must be unique
-    params = [email_address]
-    result_set = DatabaseConnection.exec_params(sql, params)
-
-    user = User.new
-    user_object_mapping(user, result_set[0])
-
-    return user
-  end
-
   def create(new_user)
     encrypted_password = BCrypt::Password.create(new_user.password)
     sql = 'INSERT into users (name, email_address, phone, password) VALUES ($1, $2, $3, $4)'
     params = [new_user.name, new_user.email_address, new_user.phone, encrypted_password]
     DatabaseConnection.exec_params(sql, params)
+  end
+
+  def find(email_address)
+    # The SQL query executed here will return an empty array if no records are found
+    sql = 'SELECT id, name, email_address, phone, password FROM users WHERE email_address = $1;'
+    params = [email_address]
+    result_set = DatabaseConnection.exec_params(sql, params)
+
+    # Initialise a new User class and map the hash values to the User attributes so that we can access the records fields
+    user = User.new
+    user_object_mapping(user, result_set[0])
+    return user
+  end
+
+  def find_by_id(id)
+    # The SQL query executed here will return an empty array if no records are found
+    sql = 'SELECT id, name, email_address, phone, password FROM users WHERE id = $1;'
+    result_set = DatabaseConnection.exec_params(sql, [id])
+    # Initialise a new User class and map the hash values to the User attributes so that we can access the records fields
+    user = User.new
+    user_object_mapping(user, result_set[0])
+    return user
+  end
+
+  def login(user, submitted_password)
+    stored_password = BCrypt::Password.new(user.password)
+    if stored_password == submitted_password
+      return true
+    else
+      return false
+    end
+  end
+
+  def check_unique_email(email)
+    # Execute query to check if a user with the given email address already exists
+    sql = sql = 'SELECT id, email_address FROM users WHERE email_address = $1'
+    params = [email]
+    result = DatabaseConnection.exec_params(sql, params)
+
+    if !result.one?
+      return true
+    else
+      return false
+    end
   end
 
   private

@@ -35,6 +35,15 @@ describe UserRepository do
       expect(user.phone).to eq('1234567890')
     end
 
+    it "can find a user by id" do
+      repo = UserRepository.new
+
+      user = repo.find_by_id(1)
+      expect(user.name).to eq('azizul haque')
+      expect(user.email_address).to eq('aziz@gmail.com')
+      expect(user.phone).to eq('1234567890')
+    end
+
     it "can create a new user" do
       new_user = User.new
       new_user.name = 'emad haque'

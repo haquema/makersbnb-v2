@@ -34,7 +34,7 @@ RSpec.describe PropertyRepository do
   end
 
   describe '#create' do
-    xit 'creates a new instance of property' do
+    it 'creates a new instance of property' do
       repo = PropertyRepository.new
 
       new_property = Property.new
