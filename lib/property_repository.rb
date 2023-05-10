@@ -11,7 +11,7 @@ class PropertyRepository
 
     result_set.each do |record|
       property = Property.new
-      record_to_object(property, record)
+      property_object_mapping(property, record)
       properties << property
     end
 
@@ -39,9 +39,12 @@ class PropertyRepository
   
   private
 
-  def record_to_object(object, record)
-    record.each do |key, value|
-      object.key = value
-    end
+  def property_object_mapping(object, record)
+    object.id = record['id']
+    object.name = record['name']
+    object.description = record['description']
+    object.price = record['price']
+    object.to_rent = record['to_rent']
+    object.user_id = record['user_id']
   end
 end

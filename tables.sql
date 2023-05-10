@@ -22,8 +22,8 @@ CREATE TABLE bookings (
   id SERIAL PRIMARY KEY,
   property_id int,
   CONSTRAINT fk_property FOREIGN KEY(property_id) REFERENCES properties(id) ON DELETE CASCADE,
-  user_id int,
-  CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+  booker_id int,
+  CONSTRAINT fk_user FOREIGN KEY(booker_id) REFERENCES users(id) ON DELETE CASCADE,
   start_date date,
   end_date date,
   status text

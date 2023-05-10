@@ -2,14 +2,14 @@ require_relative 'booking'
 
 class BookingRepository
   def all
-    sql = 'SELECT id, property_id, user_id, start_date, end_date, status FROM bookings;'
+    sql = 'SELECT id, property_id, booker_id, start_date, end_date, status FROM bookings;'
     result_set = DatabaseConnection.exec_params(sql, [])
 
     bookings = []
 
     result_set.each do |record|
       booking = Booking.new
-      record_to_object(booking, record)
+      booking_object_mapping(booking, record)
       bookings << booking
     end
 
@@ -17,22 +17,18 @@ class BookingRepository
   end
 
   def find(id)
-    sql = 'SELECT id, property_id, user_id, start_date, end_date, status FROM bookings WHERE id = $1;'
+    sql = 'SELECT id, property_id, booker_id, start_date, end_date, status FROM bookings WHERE id = $1;'
     result_set = DatabaseConnection.exec_params(sql, [id])
 
     booking = Booking.new
-    result_set.each do |record|
-      booking = Booking.new
-      record_to_object(booking, record)
-      bookings << booking
-    end
+    booking_object_mapping(booking, result_set[0])
 
     return booking
   end  
               
   def create(booking)
-    sql = 'INSERT INTO bookings (property_id, user_id, start_date, end_date, status) VALUES ($1, $2, $3, $4, $5);'
-    params = [booking.property_id, booking.user_id, booking.start_date, booking.end_date, booking.status]
+    sql = 'INSERT INTO bookings (property_id, booker_id, start_date, end_date, status) VALUES ($1, $2, $3, $4, $5);'
+    params = [booking.property_id, booking.booker_id, booking.start_date, booking.end_date, booking.status]
     DatabaseConnection.exec_params(sql, params)
   end
 
@@ -50,9 +46,12 @@ class BookingRepository
 
   private
 
-  def record_to_object(object, record)
-    record.each do |key, value|
-      object.key = value
-    end
+  def booking_object_mapping(object, record)
+    object.id = record['id']
+    object.property_id = record['property_id']
+    object.booker_id = record['booker_id']
+    object.start_date = record['start_date']
+    object.end_date = record['end_date']
+    object.status = record['status']
   end
 end
