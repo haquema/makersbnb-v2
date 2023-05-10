@@ -16,6 +16,7 @@ class Application < Sinatra::Base
   end
 
   get '/' do
+    @message = session[:message]
     return erb(:index)
   end
 
@@ -58,12 +59,15 @@ class Application < Sinatra::Base
       user = repo.find(email)
       if repo.login(user, password)
         session[:user_id] = user.id
-        redirect '/myaccount'
+        session[:message] = 'Successful login'
+        redirect '/'
       else
-        return erb(:login_fail)
+        session[:message] = 'Incorrect password'
+        redirect '/'
       end 
     else
-      return erb(:user_nonexistant)
+      session[:message] = "No account with this email"
+      redirect '/'
     end
   end
 
@@ -79,7 +83,7 @@ class Application < Sinatra::Base
   end
 
   get '/myaccount' do
-    if session[:user_id] == nil
+    if session[:message] != 'Successful login'
       # No user id in the session
       # so the user is not logged in.
       return redirect('/login')
@@ -92,14 +96,13 @@ class Application < Sinatra::Base
   end
 
   get '/myaccount/properties' do
-    if session[:user_id] == nil
+    if session[:message] != 'Successful login'
       # No user id in the session
       # so the user is not logged in.
       return redirect('/login')
     else
       @user_id = session[:user_id]
       @properties = PropertyRepository.new.find_by_owner(@user_id)
-      # @properties = PropertyRepository.new.find_by_owner(session[:user_id])
       return erb(:properties)
     end
   end

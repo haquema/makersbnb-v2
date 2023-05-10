@@ -7,14 +7,16 @@
   </head>
   <body>
     <h1>Welcome to makersBNB</h1>
-    <a href="/login">Login<a><br>
-    <a href="/signup">Sign Up<a><br>
-    <a href="/properties">View Properties<a><br>
-    <a href="/myaccount">My Account<a><br>
-    <a href="/myaccount/properties">My Properties<a><br>
-    <form action="/logout" method="post">
-      <button type="submit">Log Out</button>
-    </form>
-
+    <% if @message == 'Successful login' %>
+      <a href="/properties">View Properties<a><br>
+      <a href="/myaccount">My Account<a><br>
+      <a href="/myaccount/properties">My Properties<a><br>
+      <form action="/logout" method="post">
+        <button type="submit">Log Out</button>
+      </form>
+    <% else %>
+      <a href="/login">Login<a><br>
+      <a href="/signup">Sign Up<a><br>
+    <% end %>
   </body>
 </html>
