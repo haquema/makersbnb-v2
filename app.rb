@@ -6,7 +6,7 @@ require_relative 'lib/user'
 require_relative 'lib/database_connection'
 require_relative 'lib/booking_repository'
 
-DatabaseConnection.connect('makersbnb')
+DatabaseConnection.connect('makersbnb_test')
 
 class Application < Sinatra::Base
   enable :sessions
@@ -17,6 +17,7 @@ class Application < Sinatra::Base
 
   get '/' do
     @message = session[:message]
+    @properties = PropertyRepository.new.all
     return erb(:index)
   end
 

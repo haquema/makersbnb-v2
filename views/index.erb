@@ -7,6 +7,7 @@
   </head>
   <body>
     <h1>Welcome to makersBNB</h1>
+
     <% if @message == 'Successful login' %>
       <a href="/properties">View Properties<a><br>
       <a href="/myaccount">My Account<a><br>
@@ -18,5 +19,16 @@
       <a href="/login">Login<a><br>
       <a href="/signup">Sign Up<a><br>
     <% end %>
+    <ul>
+      <% @properties.each do |property| %>
+        <% if property.to_rent == 't' %>
+          <li>
+            <p>Name: <%= property.name%> <p>
+            <p>Description: <%= property.description%> <p>
+            <p>Price: <%= "£#{property.price}"%> <p>
+          </li>
+        <% end %>
+      <% end %>
+      </ul>
   </body>
 </html>
