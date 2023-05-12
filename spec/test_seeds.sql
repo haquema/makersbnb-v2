@@ -1,7 +1,7 @@
 TRUNCATE TABLE users, properties, bookings RESTART IDENTITY;
 
-INSERT INTO users (name, email_address, phone, password) VALUES ('azizul haque', 'aziz@gmail.com', 1234567890, 'hello1234');
-INSERT INTO users (name, email_address, phone, password) VALUES ('sameeul haque', 'samee@gmail.com', 9876543210, 'hello1234');
+INSERT INTO users (name, email_address, phone, password) VALUES ('azizul haque', 'aziz@gmail.com', 1234567890, '$2a$12$x8CPo5IDvfXKNRF0nyR7I.9Paq5rB/RU7kf4j4lejiy4phX/SRmpe');
+INSERT INTO users (name, email_address, phone, password) VALUES ('sameeul haque', 'samee@gmail.com', 9876543210, '$2a$12$x8CPo5IDvfXKNRF0nyR7I.9Paq5rB/RU7kf4j4lejiy4phX/SRmpe');
 
 INSERT INTO properties (name, description, price, to_rent, user_id) VALUES ('Modern City Apartment', 'You will be sure to have an out of this world experience in our UFO-styled treehouse', 500, true, 1);
 INSERT INTO properties (name, description, price, to_rent, user_id) VALUES ('Beachside Condo', 'sun, sea and the cool breeze - what more could you ask for?', 400, true, 2);

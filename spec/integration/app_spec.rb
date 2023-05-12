@@ -3,11 +3,22 @@ require "rack/test"
 require_relative '../../app'
 require 'json'
 
+def reset_tables
+  seed_sql = File.read('spec/test_seeds.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'makersbnb_test' })
+  connection.exec(seed_sql)
+end
+
 
 describe Application do
   include Rack::Test::Methods
 
   let(:app) { Application.new }
+
+  before(:each) do 
+    reset_tables
+  end
+
 
   context "GET /" do
     it 'returns 200 OK' do
@@ -92,18 +103,13 @@ describe Application do
     end
   end
 
-  # context "POST /login" do
-  #   it 'inserts a new user' do
-  #     response = post('/signup?username=Moana&email_address=mqueen@islandmail.com&password=test')
-  #     # encrypted_password = BCrypt::Password.create(:password)
-  #     repo = UserRepository.new
+  context "POST /login" do
+    it 'logs a user in correctly when all provided details are correct' do
+      response = post('/login', email: 'aziz@gmail.com', password: 'hello1234')
       
-  #     expect(repo.all.length).to eq 3
-  #     expect(response.status).to eq(302)
-  #     # expect(repo.all.password).to eq BCrypt::Password.create('test')
-  #     expect(repo.all.last.password).to eq('test')
-  #   end
-  # end
+      expect(response.status).to eq(302)
+    end
+  end
 
   context 'GET /bookings/new' do
     xit 'should return the html form to create a new booking' do
