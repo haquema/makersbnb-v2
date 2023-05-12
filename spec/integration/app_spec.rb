@@ -73,12 +73,12 @@ describe Application do
       expect(response.body).to include("<h1>Congrats, you're account has been registered!</h1>")
     end
 
-    # it 'returns 400 when some of the data is missing' do
-    #   response1 = post('/signup', name: 'masuda', email: 'masuda@gmail.com', phone: 74563458791)
-    #   response2 = post('/signup', email: 'masuda@gmail.com', phone: 74563458791, password: 'happyday')
-    #   response3 = post('/signup', name: 'masuda', phone: 74563458791, password: 'happyday')
-    #   response4 = post('/signup', name: 'masuda', email: 'masuda@gmail.com', phone: 74563458791)
+    it 'returns 400 when submitted email is already in use' do
+      response = post('/signup', name: 'aziz', email: 'aziz@gmail.com', phone: 74563458791, password: 'hello1234')
 
+      expect(response.status).to eq(400)
+      expect(response.body).to include('<h1>Email is already in use, please go to login or enter a new email!</h1>')
+    end
   end
 
   # context "GET /login" do

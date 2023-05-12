@@ -43,6 +43,7 @@ class Application < Sinatra::Base
       status 201
       return erb(:signup_success)
     else
+      status 400
       return erb(:email_taken)
     end
   end
