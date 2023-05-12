@@ -65,18 +65,16 @@ describe Application do
     end
   end
 
-  # context "POST /signup" do
-  #   it 'returns 200 when all provided details are suitable' do
-  #     response = post('/signup', name: 'masuda', email: 'masuda@gmail.com', phone: 074563458791, password: 'happyday')
+  context "POST /signup" do
+    it 'returns 201 when all provided details are suitable' do
+      response = post('/signup', name: 'masuda', email: 'masuda@gmail.com', phone: 74563458791, password: 'happyday')
       
-  #     expect(repo.all.length).to eq 3
-  #     expect(response.status).to eq(302)
-  #     # expect(repo.all.password).to eq BCrypt::Password.create('test')
-  #     expect(repo.all.last.password).to eq('test')
-  #   end
+      expect(response.status).to eq(201)
+      expect(response.body).to include("<h1>Congrats, you're account has been registered!</h1>")
+    end
 
-  #   it 'returns '
-  # end
+    # it 'returns '
+  end
 
   # context "GET /login" do
   #   it 'returns 200' do

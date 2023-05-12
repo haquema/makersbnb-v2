@@ -40,8 +40,8 @@ class Application < Sinatra::Base
       new_user.phone = phone
       new_user.password = password
       repo.create(new_user)
-      # return erb(:account_created)
-      redirect '/myaccount'
+      status 201
+      return erb(:signup_success)
     else
       return erb(:email_taken)
     end

@@ -3,10 +3,15 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>makersBNB Login</title>
+    <title>makersBNB Signup Success</title>
   </head>
   <body>
-    <h1> Congrats, you're account has been registered! </h1>
-    <p><%= puts @type %><p>
+    <h1>Congrats, you're account has been registered!</h1>
+
+    <a href="/myaccount">My Account<a><br>
+    <a href="/">Homepage<a><br>
+    <form action="/logout" method="post">
+      <button type="submit">Log Out</button>
+    </form>
   </body>
 </html>
