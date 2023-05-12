@@ -50,14 +50,20 @@ describe Application do
     end
   end
 
-  # context "GET /signup" do
-  #   it 'returns 200 and the signup form' do
-  #     response = get('/signup')
+  context "GET /signup" do
+    it 'returns 200 and the signup form' do
+      response = get('/signup')
 
-  #     expect(response.status).to eq(200)
-  #     expect(response.body).to include('<h2>Welcome to MakersBnB!</h2>')
-  #   end
-  # end
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<h1>Signup</h1>')
+      expect(response.body).to include('<form action="/signup" method="POST">')
+      expect(response.body).to include('<input type="text" name="name">')
+      expect(response.body).to include('<input type="email" name="email">')
+      expect(response.body).to include('<input type="bigint" name="phone">')
+      expect(response.body).to include('<input type="password" name="password">')
+      expect(response.body).to include('<input type="submit" value="Signup">')
+    end
+  end
 
   # context "POST /signup" do
   #   it 'returns 200 when all provided details are suitable' do
