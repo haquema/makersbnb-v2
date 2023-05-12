@@ -109,6 +109,21 @@ describe Application do
       
       expect(response.status).to eq(302)
     end
+
+    it 'returns the login fail page when incorrect password is entered' do
+      response = post('/login', email: 'aziz@gmail.com', password: 'hello')
+
+      expect(response.status).to eq(401)
+      expect(response.body).to include('<h1> Password was incorrect, please try again!</h1>')
+    end
+
+    it 'returns the user nonexistant page when there is no account with given email address' do
+      response = post('/login', email: 'masuda@gmail.com', password: 'hello')
+
+      expect(response.status).to eq(400)
+      expect(response.body).to include('<h1>Sorry, we have no users with this email, please try logging in again or signup for a new account!</h1>')
+    end
+
   end
 
   context 'GET /bookings/new' do

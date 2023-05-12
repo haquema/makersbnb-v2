@@ -65,10 +65,12 @@ class Application < Sinatra::Base
         redirect '/'
       else
         session[:message] = 'Incorrect password'
+        status 401
         return erb(:login_fail)
       end 
     else
       session[:message] = "No account with this email"
+      status 400
       return erb(:user_nonexistant)
     end
   end
