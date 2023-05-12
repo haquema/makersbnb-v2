@@ -81,14 +81,16 @@ describe Application do
     end
   end
 
-  # context "GET /login" do
-  #   it 'returns 200' do
-  #     response = get('/signup')
+  context "GET /login" do
+    it 'returns 200' do
+      response = get('/login')
 
-  #     expect(response.status).to eq(200)
-  #     expect(response.body).to include('<h2>Welcome to MakersBnB!</h2>')
-  #   end
-  # end
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<h1>Login</h1>')
+      expect(response.body).to include('<input type="email" name="email" required><br>')
+      expect(response.body).to include('<input type="password" name="password" required><br>')
+    end
+  end
 
   # context "POST /login" do
   #   it 'inserts a new user' do
