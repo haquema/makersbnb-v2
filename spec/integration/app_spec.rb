@@ -57,10 +57,10 @@ describe Application do
       expect(response.status).to eq(200)
       expect(response.body).to include('<h1>Signup</h1>')
       expect(response.body).to include('<form action="/signup" method="POST">')
-      expect(response.body).to include('<input type="text" name="name">')
-      expect(response.body).to include('<input type="email" name="email">')
-      expect(response.body).to include('<input type="bigint" name="phone">')
-      expect(response.body).to include('<input type="password" name="password">')
+      expect(response.body).to include('<input type="text" placeholder="John Smith" name="name" required><br>')
+      expect(response.body).to include('<input type="email" placeholder="johnsmith@ymail.com" name="email" required><br>')
+      expect(response.body).to include('<input type="bigint" placeholder="7234567890" name="phone" required><br>')
+      expect(response.body).to include('<input type="password" name="password" required><br>')
       expect(response.body).to include('<input type="submit" value="Signup">')
     end
   end
@@ -73,7 +73,12 @@ describe Application do
       expect(response.body).to include("<h1>Congrats, you're account has been registered!</h1>")
     end
 
-    # it 'returns '
+    # it 'returns 400 when some of the data is missing' do
+    #   response1 = post('/signup', name: 'masuda', email: 'masuda@gmail.com', phone: 74563458791)
+    #   response2 = post('/signup', email: 'masuda@gmail.com', phone: 74563458791, password: 'happyday')
+    #   response3 = post('/signup', name: 'masuda', phone: 74563458791, password: 'happyday')
+    #   response4 = post('/signup', name: 'masuda', email: 'masuda@gmail.com', phone: 74563458791)
+
   end
 
   # context "GET /login" do
