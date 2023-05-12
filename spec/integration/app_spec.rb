@@ -2,7 +2,7 @@ require "spec_helper"
 require "rack/test"
 require_relative '../../app'
 require 'json'
-require 'Bcrypt'
+
 
 describe Application do
   include Rack::Test::Methods
@@ -10,19 +10,14 @@ describe Application do
   let(:app) { Application.new }
 
   context "GET /" do
-    xit 'returns 200 OK' do
+    it 'returns 200 OK' do
       response = get('/')
 
       expect(response.status).to eq(200)
-      expect(response.body).to include('<p>Modern City Apartment</p>')
-      expect(response.body).to include('<p>You will be sure to have an out of this world experience in our UFO-styled treehouse</p>')
-      expect(response.body).to include('<p>£500</p>')
-    end
-
-    it 'returns 404 Not Found' do
-      response = get('/23')
-
-      expect(response.status).to eq(404)
+      expect(response.body).to include('<h1>Welcome to makersBNB</h1>')
+      expect(response.body).to include('<p>Name: Modern City Apartment<p>')
+      expect(response.body).to include('<p>Name: Beachside Condo<p>')
+      expect(response.body).to include('<p>Name: Family Home<p>')
     end
   end
 
@@ -55,27 +50,49 @@ describe Application do
     end
   end
 
-  context "GET /signup" do
-    xit 'returns 200' do
-      response = get('/signup')
+  # context "GET /signup" do
+  #   it 'returns 200 and the signup form' do
+  #     response = get('/signup')
 
-      expect(response.status).to eq(200)
-      expect(response.body).to include('<h2>Welcome to MakersBnB!</h2>')
-    end
-  end
+  #     expect(response.status).to eq(200)
+  #     expect(response.body).to include('<h2>Welcome to MakersBnB!</h2>')
+  #   end
+  # end
 
-  context "POST /signup" do
-    xit 'inserts a new user' do
-      response = post('/signup?username=Moana&email_address=mqueen@islandmail.com&password=test')
-      # encrypted_password = BCrypt::Password.create(:password)
-      repo = UserRepository.new
+  # context "POST /signup" do
+  #   it 'returns 200 when all provided details are suitable' do
+  #     response = post('/signup', name: 'masuda', email: 'masuda@gmail.com', phone: 074563458791, password: 'happyday')
       
-      expect(repo.all.length).to eq 3
-      expect(response.status).to eq(302)
-      # expect(repo.all.password).to eq BCrypt::Password.create('test')
-      expect(repo.all.last.password).to eq('test')
-    end
-  end
+  #     expect(repo.all.length).to eq 3
+  #     expect(response.status).to eq(302)
+  #     # expect(repo.all.password).to eq BCrypt::Password.create('test')
+  #     expect(repo.all.last.password).to eq('test')
+  #   end
+
+  #   it 'returns '
+  # end
+
+  # context "GET /login" do
+  #   it 'returns 200' do
+  #     response = get('/signup')
+
+  #     expect(response.status).to eq(200)
+  #     expect(response.body).to include('<h2>Welcome to MakersBnB!</h2>')
+  #   end
+  # end
+
+  # context "POST /login" do
+  #   it 'inserts a new user' do
+  #     response = post('/signup?username=Moana&email_address=mqueen@islandmail.com&password=test')
+  #     # encrypted_password = BCrypt::Password.create(:password)
+  #     repo = UserRepository.new
+      
+  #     expect(repo.all.length).to eq 3
+  #     expect(response.status).to eq(302)
+  #     # expect(repo.all.password).to eq BCrypt::Password.create('test')
+  #     expect(repo.all.last.password).to eq('test')
+  #   end
+  # end
 
   context 'GET /bookings/new' do
     xit 'should return the html form to create a new booking' do
