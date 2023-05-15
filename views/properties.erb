@@ -8,15 +8,16 @@
   <body>
     <h1>Here's a list of properties available for renting near you!</h1>
     <% @properties.each do |property| %>
-      <% if @user_id == nil %>
+      <% if @path == "/properties" %>
         <% if property.to_rent == 't' %>
           <div>
             <p>Name: <%= property.name%> <p>
             <p>Description: <%= property.description%> <p>
             <p>Price: <%= "£#{property.price}"%> <p>
+            <a href=<%="properties/#{property.id}"%>>more details<a>
           </div>
         <% end %>
-      <% else %>
+      <% elsif @path == "/myaccount/properties" %>
         <div>
           <p>Name: <%= property.name%> <p>
           <p>Description: <%= property.description%> <p>

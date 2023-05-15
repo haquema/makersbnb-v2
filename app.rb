@@ -78,6 +78,8 @@ class Application < Sinatra::Base
   end
 
   get '/properties' do
+    session[:path] = "/properties"
+    @path = session[:path]
     @properties = PropertyRepository.new.all
     return erb(:properties)
   end
@@ -99,9 +101,11 @@ class Application < Sinatra::Base
     redirect '/myaccount/properties'
   end
 
-  # get 'properties/:id' do
-
-  # end
+  get '/properties/:id' do
+    id = params[:id]
+    @property = PropertyRepository.new.find_by_id(id)
+    return erb(:property_page)
+  end
 
   # get 'properties/:id/update' do
   #   id = params[:id]
@@ -125,13 +129,14 @@ class Application < Sinatra::Base
   end
 
   get '/myaccount/properties' do
-    if session[:message] != 'Successful Login'
+    if session[:user_id] == nil
       # No user id in the session
       # so the user is not logged in.
       return redirect('/login')
     else
-      @user_id = session[:user_id]
-      @properties = PropertyRepository.new.find_by_owner(@user_id)
+      session[:path] = "/myaccount/properties"
+      @path = session[:path]
+      @properties = PropertyRepository.new.find_by_owner(session[:user_id])
       return erb(:properties)
     end
   end
