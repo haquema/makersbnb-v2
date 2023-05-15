@@ -26,11 +26,7 @@ class Application < Sinatra::Base
   end
 
   post '/signup' do
-    name = params[:name]
-    email = params[:email]
-    phone = params[:phone]
-    password = params[:password]
-    
+    name, email, phone, password = params[:name], params[:email], params[:phone], params[:password]
     repo = UserRepository.new
 
     if repo.check_unique_email(email)
@@ -87,12 +83,21 @@ class Application < Sinatra::Base
   end
 
   get '/properties/new' do
-
+    return erb(:new_property_form)
   end
 
-  # post '/properties/new' do
-  
-  # end
+  post '/properties/new' do
+    name, description, price, to_rent, user_id = params[:name], params[:description], params[:price], params[:to_rent], session[:user_id]
+    new_property = Property.new
+    new_property.name = name
+    new_property.description = description
+    new_property.price = price
+    new_property.to_rent = to_rent
+    new_property.user_id = user_id
+    PropertyRepository.new.create(new_property)
+    
+    redirect '/myaccount/properties'
+  end
 
   # get 'properties/:id' do
 
