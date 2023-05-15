@@ -1,34 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet dropdown" href="index.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>makersBNB</title>
   </head>
   <body>
-    <h1>Welcome to makersBNB</h1>
-
-    <% if @message == 'Successful login' %>
-      <a href="/properties">View Properties<a><br>
-      <a href="/myaccount">My Account<a><br>
-      <a href="/myaccount/properties">My Properties<a><br>
-      <form action="/logout" method="post">
-        <button type="submit">Log Out</button>
-      </form>
-    <% else %>
-      <a href="/login">Login<a><br>
-      <a href="/signup">Sign Up<a><br>
-    <% end %>
-    <ul>
-      <% @properties.each do |property| %>
-        <% if property.to_rent == 't' %>
-          <li>
-            <p>Name: <%= property.name%><p>
-            <p>Description: <%= property.description%><p>
-            <p>Price: <%= "£#{property.price}"%><p>
-          </li>
-        <% end %>
-      <% end %>
-      </ul>
+    <h1>Welcome to makersBnB</h1>
+    <h2>A home for you, wherever you are!</h2>
+    <nav>
+      <form action="/"><button>Homepage</button></form>
+      <form action="/properties"><button>Available Properties</button></form>
+      <div class="dropdown">
+        <button class="dropbtn">My Account</button>
+        <div class="dropdown-content">
+          <%if @message != "Successful Login"%>
+            <a href="/login">Login</a>
+            <a href="/signup">Signup</a>
+          <%else%>
+            <a href="/myaccount/properties">My Properties</a>
+            <a href="/myaccount">My Profile</a>
+          <%end%>
+        </div>
+      </div>
+      <%if @message == "Successful Login"%>
+        <form action="/logout" method="POST"><button>Logout</button></form>
+        <%end%>
+    </nav>
   </body>
 </html>

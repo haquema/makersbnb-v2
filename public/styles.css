@@ -1,0 +1,28 @@
+* {
+  font-family: sans-serif, "Times New Roman";
+  background-color: honeydew;
+  box-sizing: border-box;
+}
+
+ul {
+  list-style-type: none;
+  display: flex;
+}
+
+img .logo {
+  height: 500px;
+  width: 500px;
+}
+
+label {
+  font-weight: bold;
+}
+input[type=text],
+input[type=email],
+input[type=bigint],
+input[type=password],
+input[type=submit] {
+  padding: 5px;
+  margin: 10px 0;
+}
+

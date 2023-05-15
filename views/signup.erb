@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link rel="stylesheet" href="styles.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>makersBNB Signup</title>
   </head>
   <body>
+    <img class="logo" src="./logo.png" alt="company logo">
     <h1>Signup</h1>
       <form action="/signup" method="POST">
-        <label for="name">Full Name:</label><br>
-        <input type="text" placeholder="John Smith" name="name" required><br>
-        <label for="email">Email Address:</label><br>
-        <input type="email" placeholder="johnsmith@ymail.com" name="email" required><br>
-        <label for="phone">Phone Number: (omit the starting 0)</label><br>
-        <input type="bigint" placeholder="7234567890" name="phone" required><br>
-        <label for="password">Password:</label><br>
+        <label for="name">Full Name:</label>
+        <input type="text" name="name" required><br>
+        <label for="email">Email Address:</label>
+        <input type="email" name="email" required><br>
+        <label for="phone">Phone Number: (omit the starting 0)</label>
+        <input type="bigint" name="phone" required><br>
+        <label for="password">Password:</label>
         <input type="password" name="password" required><br>
         <input type="submit" value="Signup">
       </form>
+      <p>Already have an account? Sign up <a href="/login">here</a><p>
   </body>
 </html>

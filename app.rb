@@ -61,10 +61,10 @@ class Application < Sinatra::Base
       user = repo.find(email)
       if repo.login(user, password)
         session[:user_id] = user.id
-        session[:message] = 'Successful login'
+        session[:message] = 'Successful Login'
         redirect '/'
       else
-        session[:message] = 'Incorrect password'
+        session[:message] = 'Incorrect Password'
         status 401
         return erb(:login_fail)
       end 
@@ -86,8 +86,28 @@ class Application < Sinatra::Base
     return erb(:properties)
   end
 
+  get '/properties/new' do
+
+  end
+
+  # post '/properties/new' do
+  
+  # end
+
+  # get 'properties/:id' do
+
+  # end
+
+  # get 'properties/:id/update' do
+  #   id = params[:id]
+
+  # patch 'properties/:id/update' do
+  #   id = params[:id]
+
+  # end
+
   get '/myaccount' do
-    if session[:message] != 'Successful login'
+    if session[:message] != 'Successful Login'
       # No user id in the session
       # so the user is not logged in.
       return redirect('/login')
@@ -100,7 +120,7 @@ class Application < Sinatra::Base
   end
 
   get '/myaccount/properties' do
-    if session[:message] != 'Successful login'
+    if session[:message] != 'Successful Login'
       # No user id in the session
       # so the user is not logged in.
       return redirect('/login')
