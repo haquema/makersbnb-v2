@@ -3,7 +3,7 @@ require_relative 'database_connection'
 
 class PropertyRepository
   def all
-    sql = 'SELECT id, name, description, price, to_rent, user_id FROM properties'
+    sql = 'SELECT id, name, description, price, to_rent, date_unavailable, user_id FROM properties'
     params = []
     result_set = DatabaseConnection.exec_params(sql, params)
     
@@ -19,13 +19,13 @@ class PropertyRepository
   end
 
   def create(property)
-    sql = 'INSERT INTO properties (name, description, price, to_rent, user_id) VALUES ($1, $2, $3, $4, $5)'
-    params = [property.name, property.description, property.price, property.to_rent, property.user_id]
+    sql = 'INSERT INTO properties (name, description, price, to_rent, date_unavailable, user_id) VALUES ($1, $2, $3, $4, $5)'
+    params = [property.name, property.description, property.price, property.to_rent, date_unavailable, property.user_id]
     DatabaseConnection.exec_params(sql, params)
   end
 
   def find_by_owner(owner_id)
-    sql = 'SELECT id, name, description, price, to_rent, user_id FROM properties WHERE user_id = $1'
+    sql = 'SELECT id, name, description, price, to_rent, date_unavailable, user_id FROM properties WHERE user_id = $1'
     result_set = DatabaseConnection.exec_params(sql, [owner_id])
 
     properties = []
@@ -38,7 +38,7 @@ class PropertyRepository
   end
 
   def find_by_id(property_id)
-    sql = 'SELECT id, name, description, price, to_rent, user_id FROM properties WHERE id = $1'
+    sql = 'SELECT id, name, description, price, to_rent, date_unavailable, user_id FROM properties WHERE id = $1'
     result_set = DatabaseConnection.exec_params(sql, [property_id])
 
     property = Property.new
@@ -47,8 +47,8 @@ class PropertyRepository
   end
 
   def update(property)
-    sql = 'UPDATE properties SET name = $1, description = $2, price = $3, to_rent = $4'
-    params = [property.name, property.description, property.price, property.to_rent]
+    sql = 'UPDATE properties SET name = $1, description = $2, price = $3, to_rent = $4, date_unavailable = $5, WHERE id = $6'
+    params = [property.name, property.description, property.price, property.to_rent, property.date_unavailable, property.id]
     DatabaseConnection.exec_params(sql, params)
   end
 
@@ -67,6 +67,7 @@ class PropertyRepository
     object.description = record['description']
     object.price = record['price']
     object.to_rent = record['to_rent']
+    object.date_unavailable = record['date_unavailable']
     object.user_id = record['user_id']
   end
 end

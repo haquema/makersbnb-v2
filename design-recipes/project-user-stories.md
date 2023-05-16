@@ -7,7 +7,7 @@ As a property owner:
   I want to be able to add a new property to my inventory Y
   I want to be able to remove a property from my inventory Y
   I want to be able to edit the details of a property Y
-  I want to be able to make a property available for renting 
+  I want to be able to make a property available for renting Y
   I want to be able to choose a property's available dates 
   I want to be able to see all booking requests made on my properties
   I want to be able to approve or reject requests and cancel preexisting bookings

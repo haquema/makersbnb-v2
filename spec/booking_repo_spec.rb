@@ -1,5 +1,7 @@
 require 'booking'
 require 'booking_repository'
+require 'property'
+require 'property_repository'
 
 RSpec.describe BookingRepository do
   def reset_tables
@@ -7,8 +9,8 @@ RSpec.describe BookingRepository do
     connection = PG.connect({ host: '127.0.0.1', dbname: 'makersbnb_test' })
     connection.exec(seed_sql)
   end
-    
-  before(:each) do 
+
+  after(:each) do
     reset_tables
   end
   
@@ -17,17 +19,17 @@ RSpec.describe BookingRepository do
       repo = BookingRepository.new
       bookings = repo.all
       
-      expect(bookings.length).to eq(2)
+      expect(bookings.length).to eq(3)
       expect(bookings[0].property_id).to eq('1')
       expect(bookings[0].booker_id).to eq('2')
       expect(bookings[0].start_date).to eq('2023-05-25')
       expect(bookings[0].end_date).to eq('2023-05-29')
       expect(bookings[0].status).to eq('confirmed')
-      expect(bookings[1].property_id).to eq('3')
-      expect(bookings[1].booker_id).to eq('1')
-      expect(bookings[1].start_date).to eq('2023-05-29')
-      expect(bookings[1].end_date).to eq('2023-06-06')
-      expect(bookings[1].status).to eq('pending')
+      expect(bookings[2].property_id).to eq('3')
+      expect(bookings[2].booker_id).to eq('1')
+      expect(bookings[2].start_date).to eq('2023-05-29')
+      expect(bookings[2].end_date).to eq('2023-06-06')
+      expect(bookings[2].status).to eq('pending')
     end
   end
 
@@ -57,13 +59,32 @@ RSpec.describe BookingRepository do
 
       repo.create(new_booking)
 
-      expect(repo.all.length).to eq(3)
+      expect(repo.all.length).to eq(4)
       expect(repo.all.last.property_id).to eq('2')
       expect(repo.all.last.booker_id).to eq('2')
       expect(repo.all.last.start_date).to eq('2023-06-10')
       expect(repo.all.last.end_date).to eq('2023-06-15')
       expect(repo.all.last.status).to eq('pending')
 
+      property = PropertyRepository.new.find_by_id(2)
+      expect(property.date_unavailable).to eq('2023-06-102023-06-15')
+    end
+  end
+
+  describe '#update' do
+    it "updates an existing booking's dates" do
+      repo =  BookingRepository.new
+      existing_booking = repo.find(1)
+      updated_booking = Booking.new
+      updated_booking.start_date = '2023-05-26'
+      updated_booking.end_date = existing_booking.end_date
+      updated_booking.status = existing_booking.status
+      repo.update(existing_booking, updated_booking)
+
+      expect(BookingRepository.new.all.length).to eq(3)
+      expect(BookingRepository.new.find(1).start_date).to eq('2023-05-26')
+      property = PropertyRepository.new.find_by_id(1)
+      expect(property.date_unavailable).to eq('2023-05-302023-05-31 2023-05-262023-05-29')
     end
   end
 end

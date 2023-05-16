@@ -1,4 +1,8 @@
 require_relative 'booking'
+require 'property'
+require 'property_repository'
+
+
 
 class BookingRepository
   def all
@@ -30,11 +34,28 @@ class BookingRepository
     sql = 'INSERT INTO bookings (property_id, booker_id, start_date, end_date, status) VALUES ($1, $2, $3, $4, $5);'
     params = [booking.property_id, booking.booker_id, booking.start_date, booking.end_date, booking.status]
     DatabaseConnection.exec_params(sql, params)
+    
+    sql = 'UPDATE properties SET date_unavailable = $1 WHERE id = $2;'
+    property = PropertyRepository.new.find_by_id(booking.property_id)
+    date_unavailable_strings = property.date_unavailable.split(' ')
+    date_unavailable_strings.append(booking.start_date + booking.end_date)
+    updated_date_unavailable = date_unavailable_strings.join(' ')
+    params = [updated_date_unavailable, property.id]
+    DatabaseConnection.exec_params(sql, params)
   end
 
-  def update(booking)
-    sql = 'UPDATE bookings SET start_date = $1, end_date = $2, status = $3'
-    params = [booking.start_date, booking.end_date, booking.status]
+  def update(original, updated)
+    sql = 'UPDATE bookings SET start_date = $1, end_date = $2, status = $3 WHERE id = $4'
+    params = [updated.start_date, updated.end_date, updated.status, original.id]
+    DatabaseConnection.exec_params(sql, params)
+
+    sql = 'UPDATE properties SET date_unavailable = $1 WHERE id = $2;'
+    property = PropertyRepository.new.find_by_id(original.property_id)
+    string_array = property.date_unavailable.split(' ')
+    string_array.delete(original.start_date+original.end_date)
+    string_array.append(updated.start_date+updated.end_date)
+    updated_string = string_array.join(' ')
+    params = [updated_string, property.id]
     DatabaseConnection.exec_params(sql, params)
   end
 

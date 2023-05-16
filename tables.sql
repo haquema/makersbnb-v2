@@ -14,6 +14,7 @@ CREATE TABLE properties (
   description text,
   price int,
   to_rent boolean,
+  date_unavailable text,
   user_id int,
   CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 );
