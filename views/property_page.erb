@@ -5,6 +5,9 @@
 <p><%=@property.name%><p>
 <p><%=@property.description%><p>
 <p><%=@property.price%><p>
-<p>update your property <a href=<%= "/property/#{@property.id}/update" %>>here<a>
+<p><%=@property.to_rent%><p>
+<% if @user_id == @property.user_id %> 
+  <p>update your property <a href=<%= "/properties/#{@property.id}/update" %>>here<a>
+<% end %>
 </body>
 </html>

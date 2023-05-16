@@ -85,7 +85,7 @@ class Application < Sinatra::Base
   end
 
   get '/properties/new' do
-    return erb(:new_property_form)
+    return erb(:property_form)
   end
 
   post '/properties/new' do
@@ -102,18 +102,30 @@ class Application < Sinatra::Base
   end
 
   get '/properties/:id' do
+    @user_id = session[:user_id]
     id = params[:id]
     @property = PropertyRepository.new.find_by_id(id)
     return erb(:property_page)
   end
 
-  # get 'properties/:id/update' do
-  #   id = params[:id]
+  get '/properties/:id/update' do
+    @id = params[:id]
+    return erb(:property_form)
+  end
 
-  # patch 'properties/:id/update' do
-  #   id = params[:id]
+  post '/properties/:id/update' do
+    id, name, description, price, to_rent = params[:id], params[:name], params[:description], params[:price], params[:to_rent]
+    property = PropertyRepository.new.find_by_id(id)
+    updated_property = Property.new
+    property.id = id
+    name != '' ? updated_property.name = name : updated_property.name = property.name
+    description != '' ? updated_property.description = description : updated_property.description = property.description
+    price != '' ? updated_property.price = price : updated_property.price = property.price
+    to_rent != '' ? updated_property.to_rent = to_rent : updated_property.to_rent = property.to_rent
+    PropertyRepository.new.update(updated_property)
 
-  # end
+    redirect "/properties/#{id}"
+  end
 
   get '/myaccount' do
     if session[:message] != 'Successful Login'
