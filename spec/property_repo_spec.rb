@@ -54,6 +54,29 @@ RSpec.describe PropertyRepository do
       expect(repo.all.last.user_id).to eq '2'
     end
   end
+
+  describe '#update' do
+    it 'updates an existing property' do
+      repo = PropertyRepository.new
+      property = repo.find_by_id(1)
+      updated_prop = Property.new
+      updated_prop.name = property.name
+      updated_prop.description = property.description
+      updated_prop.price = property.price
+      updated_prop.to_rent = false
+      updated_prop.date_unavailable = property.date_unavailable
+      updated_prop.id = property.id
+
+      repo.update(updated_prop)
+
+      expect(repo.all.length).to eq 4
+      expect(repo.find_by_id(1).to_rent).to eq 'f'
+      # expect(repo.all.last.description).to eq 'Let the water rock you to sleep'
+      # expect(repo.all.last.price).to eq '350'
+      # expect(repo.all.last.to_rent).to eq 'f'
+      # expect(repo.all.last.user_id).to eq '2'
+    end
+  end
 end
 
 

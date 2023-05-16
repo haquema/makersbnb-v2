@@ -19,8 +19,8 @@ class PropertyRepository
   end
 
   def create(property)
-    sql = 'INSERT INTO properties (name, description, price, to_rent, date_unavailable, user_id) VALUES ($1, $2, $3, $4, $5)'
-    params = [property.name, property.description, property.price, property.to_rent, date_unavailable, property.user_id]
+    sql = 'INSERT INTO properties (name, description, price, to_rent, date_unavailable, user_id) VALUES ($1, $2, $3, $4, $5, $6)'
+    params = [property.name, property.description, property.price, property.to_rent, property.date_unavailable, property.user_id]
     DatabaseConnection.exec_params(sql, params)
   end
 
@@ -47,7 +47,7 @@ class PropertyRepository
   end
 
   def update(property)
-    sql = 'UPDATE properties SET name = $1, description = $2, price = $3, to_rent = $4, date_unavailable = $5, WHERE id = $6;'
+    sql = 'UPDATE properties SET name = $1, description = $2, price = $3, to_rent = $4, date_unavailable = $5 WHERE id = $6;'
     params = [property.name, property.description, property.price, property.to_rent, property.date_unavailable, property.id]
     DatabaseConnection.exec_params(sql, params)
   end

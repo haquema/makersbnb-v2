@@ -1,6 +1,6 @@
 require_relative 'booking'
-require 'property'
-require 'property_repository'
+require_relative 'property'
+require_relative 'property_repository'
 
 
 

@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require 'sinatra/reloader'
+require_relative 'lib/property'
 require_relative 'lib/property_repository'
 require_relative 'lib/user_repository'
 require_relative 'lib/user'
@@ -114,15 +115,23 @@ class Application < Sinatra::Base
   end
 
   post '/properties/:id/update' do
-    id, name, description, price, to_rent = params[:id], params[:name], params[:description], params[:price], params[:to_rent]
-    property = PropertyRepository.new.find_by_id(id)
+    # obtain params
+    id, name, description = params[:id], params[:name], params[:description]
+    price, to_rent = params[:price], params[:to_rent]
+    # find property to update
+    repo = PropertyRepository.new
+    property = repo.find_by_id(id)
+    # create new property object and set attributes to updated details
     updated_property = Property.new
-    property.id = id
+    updated_property.id = id
     name != '' ? updated_property.name = name : updated_property.name = property.name
     description != '' ? updated_property.description = description : updated_property.description = property.description
     price != '' ? updated_property.price = price : updated_property.price = property.price
     to_rent != '' ? updated_property.to_rent = to_rent : updated_property.to_rent = property.to_rent
-    PropertyRepository.new.update(updated_property)
+    updated_property.date_unavailable = property.date_unavailable
+
+    # update database by calling update method on repo and providing updated property object as argument
+    repo.update(updated_property)
 
     redirect "/properties/#{id}"
   end
@@ -149,6 +158,7 @@ class Application < Sinatra::Base
       session[:path] = "/myaccount/properties"
       @path = session[:path]
       @properties = PropertyRepository.new.find_by_owner(session[:user_id])
+      @properties = @properties.sort { |property1, property2| property1.id <=> property2.id }
       return erb(:properties)
     end
   end

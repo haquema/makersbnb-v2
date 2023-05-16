@@ -6,22 +6,26 @@
     <title>Properties For Rent</title>
   </head>
   <body>
-    <h1>Here's a list of properties available for renting near you!</h1>
-    <% @properties.each do |property| %>
-      <% if @path == "/properties" %>
+    <% if @path == "/properties" %>
+      <h1>Here's a list of properties available for renting near you!</h1>
+      <% @properties.each do |property| %>
         <% if property.to_rent == 't' %>
           <div>
             <p>Name: <%= property.name%> <p>
             <p>Description: <%= property.description%> <p>
             <p>Price: <%= "£#{property.price}"%> <p>
-            <a href=<%="properties/#{property.id}"%>>more details<a>
+            <a href=<%="/properties/#{property.id}"%>>more details<a>
           </div>
         <% end %>
-      <% elsif @path == "/myaccount/properties" %>
+      <% end %>
+    <% elsif @path == "/myaccount/properties" %>
+      <h1>Here's a list of Your Properties</h1>
+      <% @properties.each do |property| %>
         <div>
           <p>Name: <%= property.name%> <p>
           <p>Description: <%= property.description%> <p>
           <p>Price: <%= "£#{property.price}"%> <p>
+          <a href=<%="/properties/#{property.id}"%>>more details<a>
         </div>
       <% end %>
     <% end %>
