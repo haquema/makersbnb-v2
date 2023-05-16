@@ -10,7 +10,11 @@
     <select id="to_rent" name="to_rent"><br>
       <option value="true">Yes</option>
       <option value="false">No</option>
-    </select>
+    </select><br>
+    <label for="start_date">Unavailable from:</label>
+    <input type="date" id="start_date" name="unav_start" min=<%=@min%> max=<%=@max%>>
+    <label for="end_date">Unavailable until:</label>
+    <input type="date" id="end_date" name="unav_end" min=<%=@min%> max=<%=@max%>>
     <input type="submit" value="Update Property">
   </form>
 <% else %>
@@ -25,7 +29,11 @@
     <select id="to_rent" name="to_rent" required><br>
       <option value="true">Yes</option>
       <option value="false">No</option>
-    </select>
+    </select><br>
+    <label for="start_date">Unavailable from:</label>
+    <input type="date" id="start_date" name="unav_start" min=<%=@min%> max=<%=@max%>>
+    <label for="end_date">Unavailable until:</label>
+    <input type="date" id="end_date" name="unav_end" min=<%=@min%> max=<%=@max%>>
     <input type="submit" value="Add Property">
   </form>
 <% end %>

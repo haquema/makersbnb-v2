@@ -6,6 +6,7 @@ require_relative 'lib/user_repository'
 require_relative 'lib/user'
 require_relative 'lib/database_connection'
 require_relative 'lib/booking_repository'
+require 'date'
 
 DatabaseConnection.connect('makersbnb_test')
 
@@ -23,30 +24,29 @@ class Application < Sinatra::Base
   end
 
   get '/signup' do
-    return erb(:signup)
+    session[:path] = 'Signup'
+    @path = session[:path]
+    return erb(:login_signup)
+  end
+
+  get '/login' do
+    session[:path] = 'Login'
+    @path = session[:path]
+    return erb(:login_signup)
   end
 
   post '/signup' do
     name, email, phone, password = params[:name], params[:email], params[:phone], params[:password]
-    repo = UserRepository.new
+    params_array = [name, email, phone, password]
 
-    if repo.check_unique_email(email)
-      new_user = User.new
-      new_user.name = name
-      new_user.email_address = email
-      new_user.phone = phone
-      new_user.password = password
-      repo.create(new_user)
+    if UserRepository.new.check_unique_email(email)
+      signup_user(params_array)
       status 201
       return erb(:signup_success)
     else
       status 400
       return erb(:email_taken)
     end
-  end
-
-  get '/login' do
-    return erb(:login)
   end
 
   post '/login' do
@@ -86,16 +86,20 @@ class Application < Sinatra::Base
   end
 
   get '/properties/new' do
+    @min = Date.today.to_s
+    @max = (Date.today + 30).to_s
     return erb(:property_form)
   end
 
   post '/properties/new' do
     name, description, price, to_rent, user_id = params[:name], params[:description], params[:price], params[:to_rent], session[:user_id]
+    unav_start, unav_end = params[:unav_start], params[:unav_end]
     new_property = Property.new
     new_property.name = name
     new_property.description = description
     new_property.price = price
     new_property.to_rent = to_rent
+    new_property.date_unavailable = unav_start.to_s + unav_end.to_s
     new_property.user_id = user_id
     PropertyRepository.new.create(new_property)
     
@@ -111,6 +115,8 @@ class Application < Sinatra::Base
 
   get '/properties/:id/update' do
     @id = params[:id]
+    @min = Date.today.to_s
+    @max = (Date.today + 30).to_s
     return erb(:property_form)
   end
 
@@ -168,4 +174,17 @@ class Application < Sinatra::Base
   #   @user = user = UserRepository.new.find_by_id(id)
   #   return erb(:user_account)
   # end
+
+  private 
+
+  def signup_user(params_array)
+    repo = UserRepository.new
+    new_user = User.new
+    new_user.name = params_array[0]
+    new_user.email_address = params_array[1]
+    new_user.phone = params_array[2]
+    new_user.password = params_array[3]
+    repo.create(new_user)
+  end
+
 end
