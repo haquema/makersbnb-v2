@@ -64,7 +64,6 @@ RSpec.describe PropertyRepository do
       updated_prop.description = property.description
       updated_prop.price = property.price
       updated_prop.to_rent = false
-      updated_prop.date_unavailable = property.date_unavailable
       updated_prop.id = property.id
 
       repo.update(updated_prop)
