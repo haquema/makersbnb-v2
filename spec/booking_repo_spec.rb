@@ -79,7 +79,7 @@ RSpec.describe BookingRepository do
       date_repo = PropertyDatesRepository.new
       expect(date_repo.find(booking.id).property_id).to eq('3')
       expect(date_repo.find(booking.id).booking_id).to eq('3')
-      expect(date_repo.find(booking.id).unavailable_dates).to eq('2023-05-29+8')
+      expect(date_repo.find(booking.id).unavailable_dates).to eq('2023-05-29 2023-05-30 2023-05-31 2023-06-01 2023-06-02 2023-06-03 2023-06-04 2023-06-05 2023-06-06')
     end
   end
 

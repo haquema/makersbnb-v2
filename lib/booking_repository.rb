@@ -1,6 +1,7 @@
 require_relative 'booking'
 require_relative 'property'
 require_relative 'property_repository'
+require 'date'
 
 
 
@@ -68,17 +69,20 @@ class BookingRepository
   end
 
   def date_string_builder(start_date, end_date)
-    start_day, start_month = start_date[-2,2].to_i, start_date[-5,2].to_i
-    end_day, end_month = end_date[-2,2].to_i, end_date[-5,2].to_i
-    
-    month_days = { 1 => 31, 2 => 28, 3 => 31, 4 => 30, 5 => 31, 6 => 30, 7 => 31, 8 => 31, 9 => 30, 10 => 31, 11 => 30, 12 => 31 }
-    
-    if start_month == end_month 
-      num_days = end_day - start_day
-    else 
-      num_days = month_days[start_month] - start_day + end_day
+    date_start = string_to_date(start_date)
+    date_end = string_to_date(end_date)
+
+    string_to_return = ''
+    while date_start <= date_end
+      string_to_return += date_start.to_s + " "
+      date_start += 1
     end
-    return string = "#{start_date}+#{num_days}"
+    return string_to_return.strip()
+  end
+
+  def string_to_date(date_string)
+    arr = date_string.split("-").map {|x| x.to_i}
+    return Date.new(arr[0], arr[1], arr[2])
   end
 
 end

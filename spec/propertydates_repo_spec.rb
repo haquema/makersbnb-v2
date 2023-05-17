@@ -18,7 +18,7 @@ RSpec.describe PropertyDatesRepository do
       record = repo.find(1)
 
       expect(record.property_id).to eq('1')
-      expect(record.unavailable_dates).to eq('2023-05-25+4')
+      expect(record.unavailable_dates).to eq('2023-05-25, 2023-05-26, 2023-05-27, 2023-05-28, 2023-05-29')
     end
   end
 end

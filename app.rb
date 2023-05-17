@@ -85,8 +85,7 @@ class Application < Sinatra::Base
   end
 
   get '/properties/new' do
-    @min = Date.today.to_s
-    @max = (Date.today + 30).to_s
+    @dates = dates_generator()
     return erb(:property_form)
   end
 
@@ -114,8 +113,7 @@ class Application < Sinatra::Base
 
   get '/properties/:id/update' do
     @id = params[:id]
-    @min = Date.today.to_s
-    @max = (Date.today + 30).to_s
+    
     return erb(:property_form)
   end
 
@@ -186,4 +184,16 @@ class Application < Sinatra::Base
     repo.create(new_user)
   end
 
+  def dates_generator(property_id*)
+    if property_id != nil
+      unavailable_dates.split
+    min = Date.today
+    max = min + 30
+    dates = []
+    while min <= max
+      dates.append(min)
+      min += 1
+    end
+    return dates
+  end
 end
