@@ -15,11 +15,11 @@ class PropertyDatesRepository
 
   def find_by_property(property_id)
     sql = 'SELECT id, booking_id, unavailable_dates FROM property_dates WHERE property_id = $1;'
-    result_set = DatabaseConnection.exec_params(sql, [property_id])[0]
+    result_set = DatabaseConnection.exec_params(sql, [property_id])
     
     records = []
 
-    result_set.each do |record|
+    result_set.each do |result_object|
       record = PropertyDate.new
       record.id = result_object["id"]
       record.booking_id = result_object['booking_id']

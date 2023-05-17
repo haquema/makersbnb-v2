@@ -6,6 +6,8 @@ require_relative 'lib/user_repository'
 require_relative 'lib/user'
 require_relative 'lib/database_connection'
 require_relative 'lib/booking_repository'
+require_relative 'lib/propertydate'
+require_relative 'lib/propertydates_repository'
 require 'date'
 
 DatabaseConnection.connect('makersbnb_test')
@@ -113,7 +115,7 @@ class Application < Sinatra::Base
 
   get '/properties/:id/update' do
     @id = params[:id]
-    
+    @dates = dates_generator(unav_dates_list(params[:id]))
     return erb(:property_form)
   end
 
@@ -184,16 +186,37 @@ class Application < Sinatra::Base
     repo.create(new_user)
   end
 
-  def dates_generator(property_id*)
-    if property_id != nil
-      unavailable_dates.split
+  def dates_generator(unav_dates_array = nil)
+    unav_dates_array.length != nil ? unav_dates_array : unav_dates_array = []
     min = Date.today
-    max = min + 30
+    max = min + 14
     dates = []
     while min <= max
-      dates.append(min)
-      min += 1
+      if unav_dates_array.include? min
+        min += 1
+      else
+        dates.append(min)
+        min += 1
+      end
     end
     return dates
+  end
+
+  def unav_dates_list(property_id)
+    records = PropertyDatesRepository.new.find_by_property(property_id)
+    unav_dates_array = []
+    records.each do |record|
+      record_dates = record.unavailable_dates.split(" ")
+      for i in record_dates
+        unav_dates_array << string_to_date(i)
+      end
+    end
+    return unav_dates_array
+  end
+
+
+  def string_to_date(date_string)
+    arr = date_string.split("-").map {|x| x.to_i}
+    return Date.new(arr[0], arr[1], arr[2])
   end
 end

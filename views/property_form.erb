@@ -11,12 +11,6 @@
       <option value="true">Yes</option>
       <option value="false">No</option>
     </select><br>
-    <label for="unavailable_dates">Unavailable Dates: (select multiple if necessary)</label>
-    <select id="unavailable_dates" name="unavailable_dates" multiple="true" size=5><br>
-      <% for i in @dates %>
-        <option value=<%="#{i}"%>><%=i.to_s%></option>
-      <% end %>
-    </select><br>
     <input type="submit" value="Update Property">
   </form>
 <% else %>
@@ -31,12 +25,6 @@
     <select id="to_rent" name="to_rent" required><br>
       <option value="true">Yes</option>
       <option value="false">No</option>
-    </select><br>
-    <label for="unavailable_dates">Unavailable Dates: (select multiple if necessary)</label>
-    <select id="unavailable_dates" name="unavailable_dates" multiple="true" size=5><br>
-      <% for i in @dates %>
-        <option value=<%="#{i}"%>><%=i.to_s%></option>
-      <% end %>
     </select><br>
     <input type="submit" value="Add Property">
   </form>
