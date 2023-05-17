@@ -50,8 +50,7 @@ class Application < Sinatra::Base
   end
 
   post '/login' do
-    email = params[:email]
-    password = params[:password]
+    email, password = params[:email], params[:password]
     repo = UserRepository.new
     
     if repo.all.any? {|record| record.email_address == email}

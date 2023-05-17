@@ -40,14 +40,13 @@ class BookingRepository
     # DatabaseConnection.exec_params(sql, params)
   end
 
-  def confirm(id)
+  def confirm(booking)
     sql = 'UPDATE bookings SET status = $1 WHERE id = $2'
-    booking = BookingRepository.find(id)
-    params = ['confirmed', id]
+    params = ['confirmed', booking.id]
     DatabaseConnection.exec_params(sql, params)
 
     sql = 'INSERT INTO property_dates (property_id, booking_id, unavailable_dates) VALUES ($1, $2, $3);'
-    params = [booking.property_id, id, date_string_builder(booking.start_date, booking.end_date)]
+    params = [booking.property_id, booking.id, date_string_builder(booking.start_date, booking.end_date)]
     DatabaseConnection.exec_params(sql, params)
   end
 

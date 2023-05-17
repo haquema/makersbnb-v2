@@ -2,6 +2,8 @@ require 'booking'
 require 'booking_repository'
 require 'property'
 require 'property_repository'
+require 'propertydate'
+require 'propertydates_repository'
 
 RSpec.describe BookingRepository do
   def reset_tables
@@ -47,7 +49,7 @@ RSpec.describe BookingRepository do
   end
 
   describe '#create' do
-    xit 'creates a new instance of booking' do
+    it 'creates a new instance of booking' do
       repo =  BookingRepository.new
 
       new_booking = Booking.new
@@ -55,41 +57,38 @@ RSpec.describe BookingRepository do
       new_booking.booker_id = '2'
       new_booking.start_date = '2023-06-10'
       new_booking.end_date = '2023-06-15'
-      new_booking.status = 'pending'
 
       repo.create(new_booking)
-
+      booking = repo.find(4)
       expect(repo.all.length).to eq(4)
-      expect(repo.all.last.property_id).to eq('2')
-      expect(repo.all.last.booker_id).to eq('2')
-      expect(repo.all.last.start_date).to eq('2023-06-10')
-      expect(repo.all.last.end_date).to eq('2023-06-15')
-      expect(repo.all.last.status).to eq('pending')
-
-      property = PropertyRepository.new.find_by_id(2)
-      expect(property.date_unavailable).to eq('2023-06-102023-06-15')
+      expect(booking.property_id).to eq('2')
+      expect(booking.booker_id).to eq('2')
+      expect(booking.start_date).to eq('2023-06-10')
+      expect(booking.end_date).to eq('2023-06-15')
+      expect(booking.status).to eq('pending')
     end
   end
 
   describe '#confirm' do
-    xit "confirms an existing booking's dates" do
+    it "confirms an existing booking's dates" do
       repo =  BookingRepository.new
-      existing_booking = repo.find(1)
-      updated_booking = Booking.new
-      updated_booking.start_date = '2023-05-26'
-      updated_booking.end_date = existing_booking.end_date
-      updated_booking.status = existing_booking.status
-      repo.update(existing_booking, updated_booking)
+      booking = repo.find(3)
+      repo.confirm(booking)
+      expect(repo.find(3).status).to eq('confirmed')
 
-      expect(BookingRepository.new.all.length).to eq(3)
-      expect(BookingRepository.new.find(1).start_date).to eq('2023-05-26')
-      property = PropertyRepository.new.find_by_id(1)
-      expect(property.date_unavailable).to eq('2023-05-302023-05-31 2023-05-262023-05-29')
+      date_repo = PropertyDatesRepository.new
+      expect(date_repo.find(booking.id).property_id).to eq('3')
+      expect(date_repo.find(booking.id).booking_id).to eq('3')
+      expect(date_repo.find(booking.id).unavailable_dates).to eq('2023-05-29+8')
     end
   end
 
   describe '#cancel' do
-    xit "cancels an existing booking" do 
+    it "cancels an existing booking" do
+      repo =  BookingRepository.new
+      repo.cancel(3)
+      
+      expect(repo.all.length).to eq(2)
     end
   end
 end
