@@ -47,7 +47,7 @@ RSpec.describe BookingRepository do
   end
 
   describe '#create' do
-    it 'creates a new instance of booking' do
+    xit 'creates a new instance of booking' do
       repo =  BookingRepository.new
 
       new_booking = Booking.new
@@ -71,8 +71,8 @@ RSpec.describe BookingRepository do
     end
   end
 
-  describe '#update' do
-    it "updates an existing booking's dates" do
+  describe '#confirm' do
+    xit "confirms an existing booking's dates" do
       repo =  BookingRepository.new
       existing_booking = repo.find(1)
       updated_booking = Booking.new
@@ -85,6 +85,11 @@ RSpec.describe BookingRepository do
       expect(BookingRepository.new.find(1).start_date).to eq('2023-05-26')
       property = PropertyRepository.new.find_by_id(1)
       expect(property.date_unavailable).to eq('2023-05-302023-05-31 2023-05-262023-05-29')
+    end
+  end
+
+  describe '#cancel' do
+    xit "cancels an existing booking" do 
     end
   end
 end

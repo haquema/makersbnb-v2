@@ -32,34 +32,26 @@ class BookingRepository
               
   def create(booking)
     sql = 'INSERT INTO bookings (property_id, booker_id, start_date, end_date, status) VALUES ($1, $2, $3, $4, $5);'
-    params = [booking.property_id, booking.booker_id, booking.start_date, booking.end_date, booking.status]
+    params = [booking.property_id, booking.booker_id, booking.start_date, booking.end_date, 'pending']
     DatabaseConnection.exec_params(sql, params)
     
-    sql = 'UPDATE properties SET date_unavailable = $1 WHERE id = $2;'
-    property = PropertyRepository.new.find_by_id(booking.property_id)
-    date_unavailable_strings = property.date_unavailable.split(' ')
-    date_unavailable_strings.append(booking.start_date + booking.end_date)
-    updated_date_unavailable = date_unavailable_strings.join(' ')
-    params = [updated_date_unavailable, property.id]
+    # sql = 'INSERT INTO property_dates (property_id, unavailable_dates, status) VALUES ($1, $2, $3);'
+    # params = [booking.property_id, date_string_builder(booking.start_date, booking.end_date), booking.status]
+    # DatabaseConnection.exec_params(sql, params)
+  end
+
+  def confirm(id)
+    sql = 'UPDATE bookings SET status = $1 WHERE id = $2'
+    booking = BookingRepository.find(id)
+    params = ['confirmed', id]
+    DatabaseConnection.exec_params(sql, params)
+
+    sql = 'INSERT INTO property_dates (property_id, booking_id, unavailable_dates) VALUES ($1, $2, $3);'
+    params = [booking.property_id, id, date_string_builder(booking.start_date, booking.end_date)]
     DatabaseConnection.exec_params(sql, params)
   end
 
-  def update(original, updated)
-    sql = 'UPDATE bookings SET start_date = $1, end_date = $2, status = $3 WHERE id = $4'
-    params = [updated.start_date, updated.end_date, updated.status, original.id]
-    DatabaseConnection.exec_params(sql, params)
-
-    sql = 'UPDATE properties SET date_unavailable = $1 WHERE id = $2;'
-    property = PropertyRepository.new.find_by_id(original.property_id)
-    string_array = property.date_unavailable.split(' ')
-    string_array.delete(original.start_date+original.end_date)
-    string_array.append(updated.start_date+updated.end_date)
-    updated_string = string_array.join(' ')
-    params = [updated_string, property.id]
-    DatabaseConnection.exec_params(sql, params)
-  end
-
-  def delete(id)
+  def cancel(id)
     sql = 'DELETE FROM bookings WHERE id = $1'
     params = [id]
     DatabaseConnection.exec_params(sql, params)
@@ -75,4 +67,19 @@ class BookingRepository
     object.end_date = record['end_date']
     object.status = record['status']
   end
+
+  def date_string_builder(start_date, end_date)
+    start_day, start_month = start_date[-2,2].to_i, start_date[-5,2].to_i
+    end_day, end_month = end_date[-2,2].to_i, end_date[-5,2].to_i
+    
+    month_days = { 1 => 31, 2 => 28, 3 => 31, 4 => 30, 5 => 31, 6 => 30, 7 => 31, 8 => 31, 9 => 30, 10 => 31, 11 => 30, 12 => 31 }
+    
+    if start_month == end_month 
+      num_days = end_day - start_day
+    else 
+      num_days = month_days[start_month] - start_day + end_day
+    end
+    return string = "#{start_date}+#{num_days}"
+  end
+
 end
