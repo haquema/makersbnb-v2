@@ -76,6 +76,43 @@ RSpec.describe PropertyRepository do
       # expect(repo.all.last.user_id).to eq '2'
     end
   end
+
+  describe '#find_by_owner' do
+    it 'finds a property when searched by owner id' do
+      repo = PropertyRepository.new
+      property = repo.find_by_owner(1)
+      expect(property[0].id).to eq('1')
+      expect(property[0].name).to eq('Modern City Apartment')
+      expect(property[0].description).to eq('You will be sure to have an out of this world experience in our UFO-styled treehouse')
+      expect(property[0].price).to eq('500')
+      expect(property[0].user_id).to eq('1')
+
+      expect(property[1].id).to eq('3')
+      expect(property[1].name).to eq('Cottage')
+      expect(property[1].description).to eq('escape the busy city and enjoy the idyllic countrysides of southern England')
+      expect(property[1].price).to eq('200')
+      expect(property[1].user_id).to eq('1')
+    end
+  end
+
+  describe '#find_by_id' do
+    it 'finds a property when searched using the specific property id' do
+      repo = PropertyRepository.new
+      property = repo.find_by_id(1)
+      expect(property.id).to eq('1')
+      expect(property.name).to eq('Modern City Apartment')
+      expect(property.description).to eq('You will be sure to have an out of this world experience in our UFO-styled treehouse')
+      expect(property.price).to eq('500')
+      expect(property.user_id).to eq('1')
+
+      property = repo.find_by_id(2)
+      expect(property.id).to eq('2')
+      expect(property.name).to eq('Beachside Condo')
+      expect(property.description).to eq('sun, sea and the cool breeze - what more could you ask for?')
+      expect(property.price).to eq('400')
+      expect(property.user_id).to eq('2')
+    end
+  end
 end
 
 

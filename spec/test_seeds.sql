@@ -11,7 +11,7 @@ INSERT INTO properties (name, description, price, to_rent, user_id) VALUES ('Fam
 
 INSERT INTO bookings (property_id, booker_id, start_date, end_date, status) VALUES (1, 2, '2023-05-25', '2023-05-29', 'confirmed');
 INSERT INTO bookings (property_id, booker_id, start_date, end_date, status) VALUES (1, 2, '2023-05-30', '2023-05-31', 'confirmed');
-INSERT INTO bookings (property_id, booker_id, start_date, end_date, status) VALUES (3, 1, '2023-05-29', '2023-06-06', 'pending');
+INSERT INTO bookings (property_id, booker_id, start_date, end_date, status) VALUES (2, 1, '2023-05-29', '2023-06-06', 'pending');
 
 INSERT INTO property_dates (property_id, booking_id, unavailable_dates) VALUES (1, 1, '2023-05-25 2023-05-26 2023-05-27 2023-05-28 2023-05-29');
 INSERT INTO property_dates (property_id, booking_id, unavailable_dates) VALUES (1, 2, '2023-05-30 2023-05-31');

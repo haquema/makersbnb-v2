@@ -1,14 +1,50 @@
-<% @bookings.each do |booking|
-  <h1>Confirmed</h1>
-    <% if booking.status == 'confirmed' %>
-      <p> <%=booking.property_id%> <p>
-      <p> <%=booking.start_date%> <p>
-      <p> <%=booking.end_date%> <p>
+<h1>Bookings made on others properties</h1>
+<h2>Confirmed</h2>
+<% @bookings_requested.each do |booking| %>
+  <% if booking.status == 'confirmed' %>
+    <% @allprops.each do |prop| %>
+      <% if prop.id == booking.property_id %>
+        <p> <%=prop.name%> <p>
+        <p> <%=booking.start_date%> <p>
+        <p> <%=booking.end_date%> <p>
+      <% end %>
     <% end %>
-  <h1>Pending</h1>
-    <% if booking.status == 'pending' %>
-      <p> <%=booking.property_id%> <p>
-      <p> <%=booking.start_date%> <p>
-      <p> <%=booking.end_date%> <p>
+  <% end %>
+<% end %>
+<h2>Pending</h2>
+<% @bookings_requested.each do |booking| %>
+  <% if booking.status == 'pending' %>
+    <% @allprops.each do |prop| %>
+      <% if prop.id == booking.property_id %>
+        <p> <%=prop.name%> <p>
+        <p> <%=booking.start_date%> <p>
+        <p> <%=booking.end_date%> <p>
+      <% end %>
     <% end %>
+  <% end %>
+<% end %>
+<h1>Bookings recieved on your properties</h1>
+<h2>Confirmed</h2>
+<% @bookings_recieved.each do |booking| %>
+  <% if booking.status == 'confirmed' %>
+    <% @allprops.each do |prop| %>
+      <% if prop.id == booking.property_id %>
+        <p> <%=prop.name%> <p>
+        <p> <%=booking.start_date%> <p>
+        <p> <%=booking.end_date%> <p>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+<h2>Pending</h2>
+<% @bookings_recieved.each do |booking| %>
+  <% if booking.status == 'pending' %>
+    <% @allprops.each do |prop| %>
+      <% if prop.id == booking.property_id %>
+        <p> <%=prop.name%> <p>
+        <p> <%=booking.start_date%> <p>
+        <p> <%=booking.end_date%> <p>
+      <% end %>
+    <% end %>
+  <% end %>
 <% end %>

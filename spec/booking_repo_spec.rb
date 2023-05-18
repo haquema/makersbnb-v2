@@ -27,7 +27,7 @@ RSpec.describe BookingRepository do
       expect(bookings[0].start_date).to eq('2023-05-25')
       expect(bookings[0].end_date).to eq('2023-05-29')
       expect(bookings[0].status).to eq('confirmed')
-      expect(bookings[2].property_id).to eq('3')
+      expect(bookings[2].property_id).to eq('2')
       expect(bookings[2].booker_id).to eq('1')
       expect(bookings[2].start_date).to eq('2023-05-29')
       expect(bookings[2].end_date).to eq('2023-06-06')
@@ -48,6 +48,37 @@ RSpec.describe BookingRepository do
     end
   end
 
+  describe '#find_by_booker' do
+    it 'finds and returns all bookings made by specific user' do
+      repo = BookingRepository.new
+
+      bookings = repo.find_by_booker(2)
+      expect(bookings[0].property_id).to eq('1')
+      expect(bookings[0].booker_id).to eq('2')
+      expect(bookings[0].start_date).to eq('2023-05-25')
+      expect(bookings[0].end_date).to eq('2023-05-29')
+      expect(bookings[0].status).to eq('confirmed')
+      expect(bookings[1].property_id).to eq('1')
+      expect(bookings[1].booker_id).to eq('2')
+      expect(bookings[1].start_date).to eq('2023-05-30')
+      expect(bookings[1].end_date).to eq('2023-05-31')
+      expect(bookings[1].status).to eq('confirmed')
+    end
+  end
+
+  describe '#find_by_property' do
+    it 'finds and returns all bookings made by specific user' do
+      repo = BookingRepository.new
+
+      bookings = repo.find_by_property(2)
+      expect(bookings[0].property_id).to eq('2')
+      expect(bookings[0].booker_id).to eq('1')
+      expect(bookings[0].start_date).to eq('2023-05-29')
+      expect(bookings[0].end_date).to eq('2023-06-06')
+      expect(bookings[0].status).to eq('pending')
+    end
+  end
+  
   describe '#create' do
     it 'creates a new instance of booking' do
       repo =  BookingRepository.new
@@ -77,7 +108,7 @@ RSpec.describe BookingRepository do
       expect(repo.find(3).status).to eq('confirmed')
 
       date_repo = PropertyDatesRepository.new
-      expect(date_repo.find(booking.id).property_id).to eq('3')
+      expect(date_repo.find(booking.id).property_id).to eq('2')
       expect(date_repo.find(booking.id).booking_id).to eq('3')
       expect(date_repo.find(booking.id).unavailable_dates).to eq('2023-05-29 2023-05-30 2023-05-31 2023-06-01 2023-06-02 2023-06-03 2023-06-04 2023-06-05 2023-06-06')
     end

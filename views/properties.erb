@@ -19,6 +19,9 @@
         <% end %>
       <% end %>
     <% elsif @path == "/myaccount/properties" %>
+      <% if @message %>
+        <p><%= @message %></p>
+      <% end %>
       <h1>Here's a list of Your Properties</h1>
       <% @properties.each do |property| %>
         <div>
@@ -35,7 +38,7 @@
       <% end %>
     <% end %>
     <form action="/properties/new" method="GET">
-      <button type=submit>Add a new Property</button>
+      <button type=submit>List a new Property</button>
     </form>
     <a href="/">Homepage<a>
   </body>

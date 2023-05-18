@@ -2,35 +2,41 @@
 <head>
 </head>
 <body>
+  <% if @message %>
+    <p><%= @message %></p>
+  <% end %>
   <h2>Property Name: </h2>
   <p><%=@property.name%><p>
   <h2>Property Description: </h2>
   <p><%=@property.description%><p>
   <h2>Property Price: </h2>
   <p><%=@property.price%><p>
-  <h2>Available to Rent: </h2>
-  <p><%=@property.to_rent%><p>
-  <% if @user_id == @property.user_id %> 
+  <% if @user != nil && @user.id== @property.user_id %> 
+    <h2>Available to Rent: </h2>
+    <% if @property.to_rent == 't' %>
+      <p>Yes<p>
+    <% else %>
+      <p>No<p>
+    <% end %>
     <p>update your property <a href=<%="/properties/#{@property.id}/update" %>>here<a>
+  <% else %>
+    <h1>Place a booking for this property</h1>
+    <form action=<%="/#{@property.id}/bookings/new"%> method="POST">
+      <label for="start">Start Date:</label>
+      <select id="start" name="start" max=3>
+        <% for i in @dates %>
+          <option value=<%="#{i}"%>><%=i.to_s%></option>
+        <% end %>
+      </select>
+      <label for="end">End Date:</label>
+      <select id="end" name="end" max=3>
+        <% for i in @dates %>
+          <option value=<%="#{i}"%>><%=i.to_s%></option>
+        <% end %>
+      </select>
+      <input type="hidden" id="booker_id" name="booker_id" value=<%="#{@user_id}"%>>
+      <input type="submit" value="Place Booking">
+    </form>
   <% end %>
-
-  <h1>Place a booking for this property</h1>
-  <form action=<%="/#{@property.id}/bookings/new"%> method="POST">
-    <label for="start">Start Date:</label>
-    <select id="start" name="start" max=3>
-      <% for i in @dates %>
-        <option value=<%="#{i}"%>><%=i.to_s%></option>
-      <% end %>
-    </select>
-    <label for="end">End Date:</label>
-    <select id="end" name="end" max=3>
-      <% for i in @dates %>
-        <option value=<%="#{i}"%>><%=i.to_s%></option>
-      <% end %>
-    </select>
-    <input type="hidden" id="booker_id" name="booker_id" value=<%="#{@user_id}"%>>
-    <input type="submit" value="Place Booking">
-  </form>
-
 </body>
 </html>

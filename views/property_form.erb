@@ -1,5 +1,5 @@
-<% if @id != nil %>
-  <form action=<%= "/properties/#{@id}/update"%> method="POST">
+<% if @property != nil %>
+  <form action=<%= "/properties/#{@property.id}/update"%> method="POST">
     <label for="name">Property Name:</label>
     <input type="text" name="name"><br>
     <label for="description">Description:</label>

@@ -33,6 +33,7 @@ class Application < Sinatra::Base
   end
 
   get '/login' do
+    @message = session.delete(:message)
     session[:path] = 'Login'
     @path = session[:path]
     return erb(:login_signup)
@@ -67,12 +68,12 @@ class Application < Sinatra::Base
       else
         session[:message] = 'Incorrect Password'
         status 401
-        redirect '/'
+        redirect '/login'
       end 
     else
       session[:message] = "No account with this email"
       status 400
-      redirect '/'
+      redirect '/login'
     end
   end
 
@@ -91,6 +92,7 @@ class Application < Sinatra::Base
 
   get '/properties/new' do
     if session[:user] == nil
+      session[:message] ='You need to login before you can list a property'
       redirect '/login'
     else
       return erb(:property_form)
@@ -99,30 +101,35 @@ class Application < Sinatra::Base
 
   post '/properties/new' do
     name, description, price, to_rent, user_id = params[:name], params[:description], params[:price], params[:to_rent], session[:user_id]
-    unav_start, unav_end = params[:unav_start], params[:unav_end]
     new_property = Property.new
     new_property.name = name
     new_property.description = description
     new_property.price = price
     new_property.to_rent = to_rent
-    new_property.date_unavailable = unav_start.to_s + unav_end.to_s
-    new_property.user_id = user_id
+    new_property.user_id = session[:user].id
     PropertyRepository.new.create(new_property)
-    
+    session[:message] = "Your property was created successfully"
     redirect '/myaccount/properties'
   end
 
   get '/properties/:id' do
-    @user_id = session[:user_id]
-    id = params[:id]
-    @property = PropertyRepository.new.find_by_id(id)
-    @dates = dates_generator(unav_dates_list(id))
+    @message = session.delete(:message)
+    @user = session[:user]
+    prop_id = params[:id]
+    @property = PropertyRepository.new.find_by_id(prop_id)
+    @dates = dates_generator(unav_dates_list(prop_id))
     return erb(:property_page)
   end
 
   get '/properties/:id/update' do
-    @id = params[:id]
-    return erb(:property_form)
+    id = params[:id]
+    @property = PropertyRepository.new.find_by_id(id)
+    if session[:user].id != @property.user_id
+      session[:message] = "That property doesn't belong to you!"
+      redirect '/'
+    else
+      return erb(:property_form)
+    end
   end
 
   post '/properties/:id/update' do
@@ -139,44 +146,57 @@ class Application < Sinatra::Base
     description != '' ? updated_property.description = description : updated_property.description = property.description
     price != '' ? updated_property.price = price : updated_property.price = property.price
     to_rent != '' ? updated_property.to_rent = to_rent : updated_property.to_rent = property.to_rent
-    updated_property.date_unavailable = property.date_unavailable
 
     # update database by calling update method on repo and providing updated property object as argument
     repo.update(updated_property)
-
+    session[:message] = "Property was successfully updated"
     redirect "/properties/#{id}"
   end
 
   get '/myaccount' do
-    if session[:message] != 'Successful Login'
+    if session[:user] == nil
       # No user id in the session
       # so the user is not logged in.
+      session[:message] == 'You need to login to access your account'
       return redirect('/login')
     else
-      user_id = session[:user_id]
-      @user = UserRepository.new.find_by_id(user_id)
+      @user = session[:user]
       # @properties = PropertyRepository.new.find_by_owner(session[:user_id])
       return erb(:user_account)
     end
   end
 
   get '/myaccount/properties' do
-    if session[:user_id] == nil
+    if session[:user] == nil
+      session[:message] = 'You need to login before you can view your properties'
       # No user id in the session
       # so the user is not logged in.
-      return redirect('/login')
+      redirect '/login'
     else
+      @message = session.delete(:message)
       session[:path] = "/myaccount/properties"
       @path = session[:path]
-      @properties = PropertyRepository.new.find_by_owner(session[:user_id])
+      user = session[:user]
+      @properties = PropertyRepository.new.find_by_owner(user.id)
       @properties = @properties.sort { |property1, property2| property1.id <=> property2.id }
       return erb(:properties)
     end
   end
 
   get '/myaccount/booking_requests' do
-    @user_id = session[:user_id]
-    @bookings = BookingRepository.new.find_by_booker(@user_id)
+    @message= session.delete(:message)
+    user_id = session[:user].id
+    @bookings_requested = BookingRepository.new.find_by_booker(user_id)
+    repo = PropertyRepository.new
+    properties = repo.find_by_owner(user_id)
+    @allprops = repo.all
+    @bookings_recieved = []
+    for property in properties do
+      bookings = BookingRepository.new.find_by_property(property.id)
+      for booking in bookings
+        @bookings_recieved << booking
+      end
+    end
     return erb(:bookings_list)
   end
 
