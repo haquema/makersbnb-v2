@@ -14,7 +14,7 @@
       <div class="dropdown">
         <button class="dropbtn">My Account</button>
         <div class="dropdown-content">
-          <%if @message != "Successful Login"%>
+          <%if @user == nil %>
             <a href="/login">Login</a>
             <a href="/signup">Signup</a>
           <%else%>
@@ -23,7 +23,7 @@
           <%end%>
         </div>
       </div>
-      <%if @message == "Successful Login"%>
+      <%if @user != nil %>
         <form action="/logout" method="POST"><button>Logout</button></form>
         <%end%>
     </nav>

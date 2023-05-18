@@ -21,8 +21,7 @@ class Application < Sinatra::Base
   end
 
   get '/' do
-    @message = session[:message]
-    @properties = PropertyRepository.new.all
+    @user = session[:user]
     return erb(:index)
   end
 
@@ -59,7 +58,7 @@ class Application < Sinatra::Base
     if repo.all.any? {|record| record.email_address == email}
       user = repo.find(email)
       if repo.login(user, password)
-        session[:user_id] = user.id
+        session[:user] = user
         session[:message] = 'Successful Login'
         redirect '/'
       else
