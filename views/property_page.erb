@@ -34,7 +34,7 @@
           <option value=<%="#{i}"%>><%=i.to_s%></option>
         <% end %>
       </select>
-      <input type="hidden" id="booker_id" name="booker_id" value=<%="#{@user_id}"%>>
+      # <input type="hidden" id="booker_id" name="booker_id" value=<%="#{@user.id}"%>>
       <input type="submit" value="Place Booking">
     </form>
   <% end %>

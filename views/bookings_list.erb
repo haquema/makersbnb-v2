@@ -1,13 +1,25 @@
+<% if @message %>
+  <p><%= @message %></p>
+<% end %>
+
 <h1>Bookings made on others properties</h1>
 <h2>Confirmed</h2>
 <% @bookings_requested.each do |booking| %>
   <% if booking.status == 'confirmed' %>
     <% @allprops.each do |prop| %>
+    <% @allusers.each do |user| %>
       <% if prop.id == booking.property_id %>
+      <% if user.id == booking.booker_id %>
         <p> <%=prop.name%> <p>
+        <p> <%=user.name%> <p>
         <p> <%=booking.start_date%> <p>
         <p> <%=booking.end_date%> <p>
+        <form action=<%="/bookings/#{booking.id}/cancel"%> method="post">
+        <button type="submit">Cancel</button>
+        </form>
       <% end %>
+      <% end %>
+    <% end %>
     <% end %>
   <% end %>
 <% end %>
@@ -15,11 +27,19 @@
 <% @bookings_requested.each do |booking| %>
   <% if booking.status == 'pending' %>
     <% @allprops.each do |prop| %>
+    <% @allusers.each do |user| %>
       <% if prop.id == booking.property_id %>
+      <% if user.id == booking.booker_id %>
         <p> <%=prop.name%> <p>
+        <p> <%=user.name%> <p>
         <p> <%=booking.start_date%> <p>
         <p> <%=booking.end_date%> <p>
+        <form action=<%="/bookings/#{booking.id}/cancel"%> method="post">
+        <button type="submit">Cancel</button>
+        </form>
       <% end %>
+      <% end %>
+    <% end %>
     <% end %>
   <% end %>
 <% end %>
@@ -28,11 +48,19 @@
 <% @bookings_recieved.each do |booking| %>
   <% if booking.status == 'confirmed' %>
     <% @allprops.each do |prop| %>
+    <% @allusers.each do |user| %>
       <% if prop.id == booking.property_id %>
+      <% if user.id == booking.booker_id %>
         <p> <%=prop.name%> <p>
+        <p> <%=user.name%> <p>
         <p> <%=booking.start_date%> <p>
         <p> <%=booking.end_date%> <p>
+        <form action=<%="/bookings/#{booking.id}/cancel"%> method="post">
+        <button type="submit">Cancel</button>
+        </form>
       <% end %>
+      <% end %>
+    <% end %>
     <% end %>
   <% end %>
 <% end %>
@@ -40,11 +68,22 @@
 <% @bookings_recieved.each do |booking| %>
   <% if booking.status == 'pending' %>
     <% @allprops.each do |prop| %>
+    <% @allusers.each do |user| %>
       <% if prop.id == booking.property_id %>
+      <% if user.id == booking.booker_id %>
         <p> <%=prop.name%> <p>
+        <p> <%=user.name%> <p>
         <p> <%=booking.start_date%> <p>
         <p> <%=booking.end_date%> <p>
+        <form action=<%="/bookings/#{booking.id}/confirm"%> method="post">
+        <button type="submit">Confirm</button>
+        </form>
+        <form action=<%="/bookings/#{booking.id}/cancel"%> method="post">
+        <button type="submit">Cancel</button>
+        </form>
       <% end %>
+      <% end %>  
+    <% end %>
     <% end %>
   <% end %>
 <% end %>

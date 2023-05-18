@@ -190,6 +190,7 @@ class Application < Sinatra::Base
     repo = PropertyRepository.new
     properties = repo.find_by_owner(user_id)
     @allprops = repo.all
+    @allusers = UserRepository.new.all
     @bookings_recieved = []
     for property in properties do
       bookings = BookingRepository.new.find_by_property(property.id)
@@ -202,32 +203,35 @@ class Application < Sinatra::Base
 
   post '/:property_id/bookings/new' do
     property_id= params[:property_id]
-    booker_id = params[:booker_id]
     start_date = params[:start]
     end_date = params[:end]
 
-    if booker_id == nil
+    if session[:user] == nil
       redirect '/login'
     end
 
-    params_array = [property_id, booker_id, start_date, end_date]
-    booking = Booking.new
-    booking.property_id = params_array[0]
-    booking.booker_id = params_array[1]
-    booking.start_date = params_array[2]
-    booking.end_date = params_array[3]
-    BookingRepository.new.create(booking)
-
+    params_array = [property_id, session[:user].id, start_date, end_date]
+    place_booking(params_array)
     session[:message] = "Booking requested successfully"
     redirect '/myaccount/booking_requests'
   end
 
-  
-  # get '/account/:id' do
-  #   id = params[:id]
-  #   @user = user = UserRepository.new.find_by_id(id)
-  #   return erb(:user_account)
-  # end
+  post '/bookings/:booking_id/confirm' do
+    booking_id = params[:booking_id]
+    repo = BookingRepository.new
+    booking = repo.find(booking_id)
+    repo.confirm(booking)
+    session[:message] = 'Booking was confirmed'
+    redirect '/myaccount/booking_requests'
+  end
+
+  post '/bookings/:booking_id/cancel' do
+    booking_id = params[:booking_id]
+    repo = BookingRepository.new
+    repo.cancel(booking_id)
+    session[:message] = 'Booking was cancelled'
+    redirect '/myaccount/booking_requests'
+  end
 
   private 
 
@@ -278,10 +282,10 @@ class Application < Sinatra::Base
   def place_booking(params_array)
     repo = BookingRepository.new
     booking = Booking.new
-    booking.property_id = params_array[0]
-    booking.booker_id = params_array[1]
-    booking.start_date = params_array[2]
-    booking.end_date = params_array[3]
+    booking.property_id = params_array[0].to_s
+    booking.booker_id = params_array[1].to_s
+    booking.start_date = params_array[2].to_s
+    booking.end_date = params_array[3].to_s
     repo.create(booking)
   end
 end
