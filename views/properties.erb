@@ -25,6 +25,11 @@
           <p>Name: <%= property.name%> <p>
           <p>Description: <%= property.description%> <p>
           <p>Price: <%= "£#{property.price}"%> <p>
+          <% if property.to_rent == 't' %>
+            <p>Available to Rent: Yes<p>
+          <% else %>
+            <p>Available to Rent: No<p>
+          <% end %>
           <a href=<%="/properties/#{property.id}"%>>more details<a>
         </div>
       <% end %>

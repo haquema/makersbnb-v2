@@ -29,6 +29,20 @@ class BookingRepository
     booking_object_mapping(booking, result_set[0])
 
     return booking
+  end
+  
+  def find_by_booker(booker_id)
+    sql = 'SELECT id, property_id, booker_id, start_date, end_date, status FROM bookings WHERE booker_id = $1;'
+    result_set = DatabaseConnection.exec_params(sql, [booker_id])
+
+    bookings= []
+    result_set.each do |result|
+      booking = Booking.new
+      booking_object_mapping(booking, result)
+      bookings << booking
+    end
+
+    return booking
   end  
               
   def create(booking)

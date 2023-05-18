@@ -5,6 +5,7 @@ require_relative 'lib/property_repository'
 require_relative 'lib/user_repository'
 require_relative 'lib/user'
 require_relative 'lib/database_connection'
+require_relative 'lib/booking'
 require_relative 'lib/booking_repository'
 require_relative 'lib/propertydate'
 require_relative 'lib/propertydates_repository'
@@ -87,7 +88,6 @@ class Application < Sinatra::Base
   end
 
   get '/properties/new' do
-    @dates = dates_generator()
     return erb(:property_form)
   end
 
@@ -110,12 +110,12 @@ class Application < Sinatra::Base
     @user_id = session[:user_id]
     id = params[:id]
     @property = PropertyRepository.new.find_by_id(id)
+    @dates = dates_generator(unav_dates_list(id))
     return erb(:property_page)
   end
 
   get '/properties/:id/update' do
     @id = params[:id]
-    @dates = dates_generator(unav_dates_list(params[:id]))
     return erb(:property_form)
   end
 
@@ -167,6 +167,35 @@ class Application < Sinatra::Base
       return erb(:properties)
     end
   end
+
+  get '/myaccount/booking_requests' do
+    @user_id = session[:user_id]
+    @bookings = BookingRepository.new.find_by_booker(@user_id)
+    return erb(:bookings_list)
+  end
+
+  post '/:property_id/bookings/new' do
+    property_id= params[:property_id]
+    booker_id = params[:booker_id]
+    start_date = params[:start]
+    end_date = params[:end]
+
+    if booker_id == nil
+      redirect '/login'
+    end
+
+    params_array = [property_id, booker_id, start_date, end_date]
+    booking = Booking.new
+    booking.property_id = params_array[0]
+    booking.booker_id = params_array[1]
+    booking.start_date = params_array[2]
+    booking.end_date = params_array[3]
+    BookingRepository.new.create(booking)
+
+    session[:message] = "Booking requested successfully"
+    redirect '/myaccount/booking_requests'
+  end
+
   
   # get '/account/:id' do
   #   id = params[:id]
@@ -218,5 +247,15 @@ class Application < Sinatra::Base
   def string_to_date(date_string)
     arr = date_string.split("-").map {|x| x.to_i}
     return Date.new(arr[0], arr[1], arr[2])
+  end
+
+  def place_booking(params_array)
+    repo = BookingRepository.new
+    booking = Booking.new
+    booking.property_id = params_array[0]
+    booking.booker_id = params_array[1]
+    booking.start_date = params_array[2]
+    booking.end_date = params_array[3]
+    repo.create(booking)
   end
 end
