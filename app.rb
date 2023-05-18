@@ -88,7 +88,12 @@ class Application < Sinatra::Base
   end
 
   get '/properties/new' do
-    return erb(:property_form)
+    user_id = session[:user_id]
+    if user_id == nil
+      redirect '/login'
+    else
+      return erb(:property_form)
+    end
   end
 
   post '/properties/new' do
