@@ -27,6 +27,9 @@
         <form action="/logout" method="POST"><button>Logout</button></form>
         <%end%>
     </nav>
+    <% if @message %>
+      <p><%= @message %></p>
+    <% end %>
     <h1>Welcome to makersBnB</h1>
     <h2>A home for you, wherever you are!</h2>
   </body>

@@ -21,6 +21,7 @@ class Application < Sinatra::Base
   end
 
   get '/' do
+    @message = session.delete(:message)
     @user = session[:user]
     return erb(:index)
   end
@@ -43,11 +44,13 @@ class Application < Sinatra::Base
 
     if UserRepository.new.check_unique_email(email)
       signup_user(params_array)
+      session[:message] = "Signup was successful, you can now login!"
       status 201
-      return erb(:signup_success)
+      redirect '/'
     else
+      session[:message] = "An account with that email address already exists"
       status 400
-      return erb(:email_taken)
+      redirect '/'
     end
   end
 
