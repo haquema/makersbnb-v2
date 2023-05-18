@@ -90,6 +90,14 @@ class Application < Sinatra::Base
     return erb(:properties)
   end
 
+  get '/properties/sort_price' do
+    @path = params[:path]
+    properties = PropertyRepository.new.all
+    @properties = properties.sort { |property1, property2| property1.price <=> property2.price }
+    return erb(:properties)
+  end
+  
+
   get '/properties/new' do
     if session[:user] == nil
       session[:message] ='You need to login before you can list a property'

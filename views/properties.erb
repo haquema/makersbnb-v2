@@ -18,6 +18,10 @@
           </div>
         <% end %>
       <% end %>
+      <form action="/properties/sort_price" method="GET">
+      <input type="hidden" id="booker_id" name="path" value=<%=@path%>>
+      <button type=submit>Sort listings by price</button>
+    </form>
     <% elsif @path == "/myaccount/properties" %>
       <% if @message %>
         <p><%= @message %></p>
