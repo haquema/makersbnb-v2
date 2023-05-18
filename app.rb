@@ -62,17 +62,17 @@ class Application < Sinatra::Base
       user = repo.find(email)
       if repo.login(user, password)
         session[:user] = user
-        session[:message] = 'Successful Login'
+        session[:message] = 'You are now logged in'
         redirect '/'
       else
         session[:message] = 'Incorrect Password'
         status 401
-        return erb(:login_fail)
+        redirect '/'
       end 
     else
       session[:message] = "No account with this email"
       status 400
-      return erb(:user_nonexistant)
+      redirect '/'
     end
   end
 
@@ -90,8 +90,7 @@ class Application < Sinatra::Base
   end
 
   get '/properties/new' do
-    user_id = session[:user_id]
-    if user_id == nil
+    if session[:user] == nil
       redirect '/login'
     else
       return erb(:property_form)
